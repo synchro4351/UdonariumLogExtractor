@@ -2,20 +2,23 @@
 """
 Udonariumの部屋データ(zip)からチャットログを抽出して、テキストで保存するスクリプトです。
 
-最小構成として、以下の情報だけを出力します。
-- タブ名
-- 発言者名
-- 発言内容
+設定ファイル(config.json)で、次の出力を切り替えられます。
+- 人間向けログ（既定で有効）
+- 機械向けログ（既定で無効）
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
+import io
+import json
 import shutil
 import sys
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Sequence, Tuple
+from typing import Dict, List, Sequence
 import xml.etree.ElementTree as ET
 
 
@@ -39,6 +42,11 @@ def parse_args() -> argparse.Namespace:
         "--output-dir",
         default="出力ログ",
         help="抽出したテキストログの出力先フォルダ（既定値: 出力ログ）",
+    )
+    parser.add_argument(
+        "--config",
+        default="config.json",
+        help="出力形式を指定する設定ファイル（既定値: config.json）",
     )
     return parser.parse_args()
 
@@ -78,6 +86,83 @@ def make_unique_path(path: Path) -> Path:
         index += 1
 
 
+@dataclass(frozen=True)
+class ChatMessage:
+    """
+    チャット1件分のデータを保持する。
+
+    sequenceはタイムスタンプが同値/欠損のときの安定ソート用。
+    """
+
+    tab_name: str
+    speaker: str
+    content: str
+    timestamp: int | None
+    sequence: int
+
+
+def default_config() -> Dict[str, Dict[str, object]]:
+    """
+    既定の設定値を返す。
+
+    ポイント:
+    - 既定では人間向けのみ出力
+    - 機械向けは必要時だけ有効化
+    """
+    return {
+        "outputs": {
+            "human_readable": True,
+            "machine_readable": False,
+        },
+        "machine": {
+            "format": "jsonl",
+        },
+    }
+
+
+def load_config(config_path: Path) -> Dict[str, Dict[str, object]]:
+    """
+    設定ファイルを読み込む。
+    ファイルが存在しない場合は既定値を使う。
+    """
+    config = default_config()
+
+    if not config_path.exists():
+        return config
+
+    try:
+        # utf-8-sigで読むことで、BOM付きUTF-8設定ファイルも扱えるようにする。
+        loaded = json.loads(config_path.read_text(encoding="utf-8-sig"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"設定ファイルのJSONが壊れています: {config_path}") from exc
+
+    if not isinstance(loaded, dict):
+        raise ValueError("設定ファイルのトップレベルはオブジェクト(JSONの{})である必要があります。")
+
+    outputs = loaded.get("outputs")
+    if outputs is not None:
+        if not isinstance(outputs, dict):
+            raise ValueError("設定ファイルの outputs はオブジェクトである必要があります。")
+        for key in ("human_readable", "machine_readable"):
+            if key in outputs:
+                value = outputs[key]
+                if not isinstance(value, bool):
+                    raise ValueError(f"outputs.{key} は true/false で指定してください。")
+                config["outputs"][key] = value
+
+    machine = loaded.get("machine")
+    if machine is not None:
+        if not isinstance(machine, dict):
+            raise ValueError("設定ファイルの machine はオブジェクトである必要があります。")
+        if "format" in machine:
+            format_value = machine["format"]
+            if format_value not in ("jsonl", "tsv"):
+                raise ValueError("machine.format は jsonl または tsv を指定してください。")
+            config["machine"]["format"] = format_value
+
+    return config
+
+
 def load_chat_root_from_zip(zip_path: Path) -> ET.Element:
     """
     zip内のchat.xmlを読み込み、XMLルート要素を返す。
@@ -97,75 +182,188 @@ def load_chat_root_from_zip(zip_path: Path) -> ET.Element:
     return root
 
 
-def extract_tab_messages(root: ET.Element) -> List[Tuple[str, List[Tuple[str, str]]]]:
+def parse_timestamp(raw_timestamp: str | None) -> int | None:
     """
-    XMLルートから、タブごとの(発言者, 発言)一覧を取り出す。
-    戻り値: [(タブ名, [(発言者名, 発言), ...]), ...]
+    タイムスタンプ属性を整数へ変換する。
+    変換できない場合はNoneを返す。
     """
-    tab_data: List[Tuple[str, List[Tuple[str, str]]]] = []
+    if raw_timestamp is None:
+        return None
+
+    raw = raw_timestamp.strip()
+    if not raw:
+        return None
+
+    try:
+        return int(raw)
+    except ValueError:
+        return None
+
+
+def extract_messages(root: ET.Element) -> List[ChatMessage]:
+    """
+    XMLルートからチャットメッセージを取り出す。
+    ここではまだタブ単位にまとめず、1件ずつフラットに保持する。
+    """
+    messages: List[ChatMessage] = []
+    sequence = 0
 
     # chat-tab-list配下のchat-tabを順番に処理する。
     for tab in root.findall("chat-tab"):
         tab_name = (tab.get("name") or "無名タブ").strip() or "無名タブ"
-        messages: List[Tuple[str, str]] = []
 
-        # 各タブのchat要素を走査する。
+        # 各タブ内のchat要素を走査して、発言1件ごとに保存する。
         for chat in tab.findall("chat"):
             # name属性が発言者名。空なら「名無し」にする。
             speaker = (chat.get("name") or "名無し").strip() or "名無し"
+            # 発言本文を1行化して扱いやすくする。
             content = normalize_text(chat.text or "")
-
             # 空発言はスキップする（空行だらけになるのを防ぐ）。
             if not content:
                 continue
+            # 時系列ソートに使うtimestamp属性を取得する。
+            timestamp = parse_timestamp(chat.get("timestamp"))
 
-            messages.append((speaker, content))
+            messages.append(
+                ChatMessage(
+                    tab_name=tab_name,
+                    speaker=speaker,
+                    content=content,
+                    timestamp=timestamp,
+                    sequence=sequence,
+                )
+            )
+            sequence += 1
 
-        tab_data.append((tab_name, messages))
-
-    return tab_data
+    return messages
 
 
-def build_output_text(zip_name: str, tabs: Sequence[Tuple[str, Sequence[Tuple[str, str]]]]) -> str:
-    """テキスト出力用の本文を作る。"""
+def sort_messages_chronologically(messages: Sequence[ChatMessage]) -> List[ChatMessage]:
+    """
+    全タブ横断で時系列順に並べる。
+
+    - まずtimestampで昇順
+    - timestampがないものは末尾へ
+    - 同時刻はsequenceで元順序を維持
+    """
+    return sorted(
+        messages,
+        key=lambda item: (
+            item.timestamp is None,
+            item.timestamp if item.timestamp is not None else 0,
+            item.sequence,
+        ),
+    )
+
+
+def build_human_output_text(zip_name: str, messages: Sequence[ChatMessage]) -> str:
+    """
+    人間向けの本文を作る。
+    タブが切り替わったタイミングで見出しを再表示する。
+    """
     lines: List[str] = []
     lines.append(f"元ファイル: {zip_name}")
     lines.append("")
 
-    for tab_name, messages in tabs:
-        lines.append(f"=== タブ: {tab_name} ===")
-        if not messages:
-            lines.append("(発言なし)")
-            lines.append("")
-            continue
+    if not messages:
+        lines.append("(発言なし)")
+        return "\n".join(lines).rstrip() + "\n"
+
+    current_tab: str | None = None
+    for message in messages:
+        # タブが変わったら見出しを出す。
+        if message.tab_name != current_tab:
+            lines.append(f"=== タブ: {message.tab_name} ===")
+            current_tab = message.tab_name
 
         # 最小構成として「発言者: 発言」のみを並べる。
-        for speaker, content in messages:
-            lines.append(f"{speaker}: {content}")
-
-        lines.append("")
+        lines.append(f"{message.speaker}: {message.content}")
 
     # ファイル末尾に改行を1つ入れる。
     return "\n".join(lines).rstrip() + "\n"
 
 
-def process_zip_file(zip_path: Path, output_dir: Path, processed_dir: Path) -> Path:
+def build_machine_output_jsonl(messages: Sequence[ChatMessage]) -> str:
+    """
+    機械向けJSONL文字列を作る。
+    1行1JSONで、ログ解析ツールに取り込みやすい形式。
+    """
+    lines: List[str] = []
+    for message in messages:
+        record = {
+            "tab": message.tab_name,
+            "speaker": message.speaker,
+            "message": message.content,
+        }
+        lines.append(json.dumps(record, ensure_ascii=False))
+
+    if not lines:
+        return ""
+
+    return "\n".join(lines) + "\n"
+
+
+def build_machine_output_tsv(messages: Sequence[ChatMessage]) -> str:
+    """
+    機械向けTSV文字列を作る。
+    表計算ソフトやスクリプトで扱いやすい。
+    """
+    buffer = io.StringIO()
+    writer = csv.writer(buffer, delimiter="\t", lineterminator="\n")
+
+    # 先頭にヘッダ行を置く。
+    writer.writerow(["tab", "speaker", "message"])
+    for message in messages:
+        writer.writerow([message.tab_name, message.speaker, message.content])
+
+    return buffer.getvalue()
+
+
+def process_zip_file(
+    zip_path: Path,
+    output_dir: Path,
+    processed_dir: Path,
+    config: Dict[str, Dict[str, object]],
+) -> List[Path]:
     """
     1つのzipを処理し、ログ出力後にzipを処理済みフォルダへ移動する。
-    戻り値は出力したテキストファイルのパス。
+    戻り値は出力したファイルパス一覧。
     """
     root = load_chat_root_from_zip(zip_path)
-    tabs = extract_tab_messages(root)
-    output_text = build_output_text(zip_path.name, tabs)
+    extracted_messages = extract_messages(root)
+    sorted_messages = sort_messages_chronologically(extracted_messages)
 
-    # zip名をベースにtxt名を作る。重複時は連番を付ける。
-    output_path = make_unique_path(output_dir / f"{zip_path.stem}.txt")
-    output_path.write_text(output_text, encoding="utf-8")
+    created_paths: List[Path] = []
+    outputs = config["outputs"]
+    machine = config["machine"]
+
+    # 人間向けログを作る設定なら、txtを出力する。
+    if bool(outputs.get("human_readable", False)):
+        human_text = build_human_output_text(zip_path.name, sorted_messages)
+        human_output_path = make_unique_path(output_dir / f"{zip_path.stem}.txt")
+        human_output_path.write_text(human_text, encoding="utf-8")
+        created_paths.append(human_output_path)
+
+    # 機械向けログを作る設定なら、指定形式で出力する。
+    if bool(outputs.get("machine_readable", False)):
+        machine_format = str(machine.get("format", "jsonl"))
+        if machine_format == "tsv":
+            machine_text = build_machine_output_tsv(sorted_messages)
+            machine_output_path = make_unique_path(output_dir / f"{zip_path.stem}.machine.tsv")
+        else:
+            machine_text = build_machine_output_jsonl(sorted_messages)
+            machine_output_path = make_unique_path(output_dir / f"{zip_path.stem}.machine.jsonl")
+
+        machine_output_path.write_text(machine_text, encoding="utf-8")
+        created_paths.append(machine_output_path)
+
+    if not created_paths:
+        raise ValueError("設定により出力がすべて無効です。outputsを見直してください。")
 
     # 処理済みzipの移動先。重複時は連番を付ける。
     moved_path = make_unique_path(processed_dir / zip_path.name)
     shutil.move(str(zip_path), str(moved_path))
-    return output_path
+    return created_paths
 
 
 def main() -> int:
@@ -174,11 +372,13 @@ def main() -> int:
     unprocessed_dir = Path(args.unprocessed_dir)
     processed_dir = Path(args.processed_dir)
     output_dir = Path(args.output_dir)
+    config_path = Path(args.config)
 
     # 必要なフォルダを準備する。
     ensure_directory(unprocessed_dir)
     ensure_directory(processed_dir)
     ensure_directory(output_dir)
+    config = load_config(config_path)
 
     # 未処理フォルダ内のzipだけを対象にする。
     zip_files = sorted(unprocessed_dir.glob("*.zip"))
@@ -191,8 +391,9 @@ def main() -> int:
 
     for zip_path in zip_files:
         try:
-            output_path = process_zip_file(zip_path, output_dir, processed_dir)
-            print(f"[OK] {zip_path.name} -> {output_path}")
+            output_paths = process_zip_file(zip_path, output_dir, processed_dir, config)
+            output_display = ", ".join(str(path) for path in output_paths)
+            print(f"[OK] {zip_path.name} -> {output_display}")
             success_count += 1
         except Exception as exc:  # noqa: BLE001
             # エラーが出たzipは移動せずに未処理フォルダへ残す。

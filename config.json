@@ -1,0 +1,9 @@
+{
+  "outputs": {
+    "human_readable": true,
+    "machine_readable": false
+  },
+  "machine": {
+    "format": "jsonl"
+  }
+}
