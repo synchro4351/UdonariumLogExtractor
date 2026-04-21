@@ -1,6 +1,25 @@
 {
   "outputs": {
-    "human_text": true,
+    "human_text": false,
     "human_html": true
+  },
+  "common": {
+    "show_timestamp": false,
+    "show_speaker_id": false
+  },
+  "html": {
+    "messages_per_page": 1000,
+    "separate_tabs_columns_default": false
+  },
+  "speaker_grouping": {
+    "enabled": true,
+    "min_messages_for_merge": 15,
+    "min_overlap_messages": 6,
+    "min_overlap_ratio": 0.25,
+    "name_ratio_threshold": 0.12,
+    "min_name_count": 3
+  },
+  "ui": {
+    "speaker_alias_preview_max_chars": 48
   }
 }

@@ -16,3 +16,6 @@ env/
 !未処理/.gitkeep
 処理済み/*
 !処理済み/.gitkeep
+
+# 新方式のHTML出力（zipと同じ場所に作られる）を除外
+*_html/

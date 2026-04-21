@@ -1,123 +1,58 @@
 #!/usr/bin/env python3
 """
-Udonariumの部屋データ(zip)からチャットログを抽出するスクリプトです。
+Udonariumの部屋データ(zip)からログを抽出するツールです。
 
-このスクリプトは、設定ファイル(config.json)の内容に応じて次を出力します。
-- 人間向けテキスト（.txt）
-- 人間向けHTML（index.html + assetsフォルダ）
+この版では、次を重視しています。
+- 1ファイルずつ確実に処理する
+- HTMLは動的変更をやめ、静的に軽く表示する
+- 長いログは1000件ごとなどでページ分割する
+
+主な流れ:
+1. ファイル選択ダイアログでzipを選ぶ
+2. chat.xmlを解析する
+3. 発言者グループと色を確認・調整する
+4. タブ選択と表示モードを選ぶ
+5. テキスト / HTML を出力する
 """
 
 from __future__ import annotations
 
 import argparse
+import html
 import json
-import shutil
+import math
 import sys
 import zipfile
+from collections import Counter, defaultdict
 from dataclasses import dataclass
+from datetime import datetime
+from itertools import combinations
 from pathlib import Path
-from typing import Any, Dict, List, Sequence, Tuple
+from typing import Any, Dict, Iterable, List, Sequence, Tuple
 import xml.etree.ElementTree as ET
 
+# GUIは標準ライブラリのtkinterを使う。
+# Windows環境での実行を想定しているため、通常は利用可能。
+try:
+    import tkinter as tk
+    from tkinter import colorchooser, filedialog, messagebox
+except Exception:  # pragma: no cover - 実行環境依存
+    tk = None  # type: ignore[assignment]
+    colorchooser = None  # type: ignore[assignment]
+    filedialog = None  # type: ignore[assignment]
+    messagebox = None  # type: ignore[assignment]
 
-# HTMLで扱う画像拡張子の一覧。
-# Udonarium部屋データに入ることが多い画像形式をここに定義する。
+
+# Udonariumのzipに含まれうる画像拡張子。
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"}
-
-
-def parse_args() -> argparse.Namespace:
-    """コマンドライン引数を受け取る。"""
-    parser = argparse.ArgumentParser(
-        description=(
-            "未処理フォルダのUdonarium部屋データ(zip)を解析して、"
-            "人間向けテキスト/HTMLログを出力します。"
-        )
-    )
-    # 初期値は、リポジトリの想定フォルダ構成に合わせる。
-    parser.add_argument(
-        "--unprocessed-dir",
-        default="未処理",
-        help="未処理のzipファイルを置くフォルダ（既定値: 未処理）",
-    )
-    parser.add_argument(
-        "--processed-dir",
-        default="処理済み",
-        help="処理後のzipファイルを移動するフォルダ（既定値: 処理済み）",
-    )
-    parser.add_argument(
-        "--output-dir",
-        default="出力ログ",
-        help="抽出したログの出力先フォルダ（既定値: 出力ログ）",
-    )
-    parser.add_argument(
-        "--config",
-        default="config.json",
-        help="出力形式を指定する設定ファイル（既定値: config.json）",
-    )
-    return parser.parse_args()
-
-
-def normalize_text(text: str) -> str:
-    """
-    発言文字列を読みやすい形に整える。
-
-    - 改行をまとめて1行化
-    - 前後の空白を除去
-    """
-    # 改行コードを統一する（Windows/Unix混在対策）。
-    unified = text.replace("\r\n", "\n").replace("\r", "\n")
-    # 空行を除外しつつ、各行の前後空白を削ってから連結する。
-    lines = [line.strip() for line in unified.split("\n") if line.strip()]
-    return " ".join(lines).strip()
-
-
-def ensure_directory(path: Path) -> None:
-    """フォルダがなければ作成する。"""
-    path.mkdir(parents=True, exist_ok=True)
-
-
-def make_unique_path(path: Path) -> Path:
-    """
-    既存ファイルと名前衝突しないファイルパスを作る。
-    例: sample.txt -> sample_1.txt
-    """
-    if not path.exists():
-        return path
-
-    index = 1
-    while True:
-        candidate = path.with_name(f"{path.stem}_{index}{path.suffix}")
-        if not candidate.exists():
-            return candidate
-        index += 1
-
-
-def make_unique_directory(path: Path) -> Path:
-    """
-    既存フォルダと名前衝突しないフォルダパスを作る。
-    例: sample_html -> sample_html_1
-    """
-    if not path.exists():
-        return path
-
-    index = 1
-    while True:
-        candidate = path.with_name(f"{path.name}_{index}")
-        if not candidate.exists():
-            return candidate
-        index += 1
 
 
 @dataclass(frozen=True)
 class ChatMessage:
-    """
-    チャット1件分のデータを保持する。
-
-    sequenceは、タイムスタンプが同値/欠損のときの安定ソート用。
-    """
+    """チャット1件分のデータ。"""
 
     tab_name: str
-    speaker: str
+    speaker_name: str
     speaker_id: str
     image_identifier: str
     content: str
@@ -125,64 +60,192 @@ class ChatMessage:
     sequence: int
 
 
-def default_config() -> Dict[str, Dict[str, object]]:
+@dataclass(frozen=True)
+class SpeakerGroup:
     """
-    既定の設定値を返す。
+    発言者グループ情報。
 
-    - human_text: 既定で有効
-    - human_html: 既定で無効（必要時にtrueへ）
+    - 1つ以上のIDをまとめた単位
+    - 色選択ダイアログではこの単位で色を指定する
+    """
+
+    group_key: str
+    representative_name: str
+    member_ids: Tuple[str, ...]
+    aliases_sorted: Tuple[Tuple[str, int], ...]
+    message_count: int
+    default_color: str
+
+
+class UnionFind:
+    """IDをまとめるためのUnion-Find。"""
+
+    def __init__(self, items: Iterable[str]) -> None:
+        self.parent: Dict[str, str] = {}
+        self.rank: Dict[str, int] = {}
+        for item in items:
+            self.parent[item] = item
+            self.rank[item] = 0
+
+    def find(self, item: str) -> str:
+        parent = self.parent[item]
+        if parent != item:
+            self.parent[item] = self.find(parent)
+        return self.parent[item]
+
+    def union(self, a: str, b: str) -> None:
+        ra = self.find(a)
+        rb = self.find(b)
+        if ra == rb:
+            return
+        if self.rank[ra] < self.rank[rb]:
+            self.parent[ra] = rb
+            return
+        if self.rank[ra] > self.rank[rb]:
+            self.parent[rb] = ra
+            return
+        self.parent[rb] = ra
+        self.rank[ra] += 1
+
+
+def parse_args() -> argparse.Namespace:
+    """CLI引数を読み取る。"""
+    parser = argparse.ArgumentParser(
+        description="Udonariumの部屋データ(zip)を解析して、テキスト/HTMLを出力します。"
+    )
+    parser.add_argument(
+        "--config",
+        default="config.json",
+        help="設定ファイルのパス（既定値: config.json）",
+    )
+    parser.add_argument(
+        "--input-zip",
+        default="",
+        help="入力zipを直接指定する。未指定時はファイル選択ダイアログを出す。",
+    )
+    return parser.parse_args()
+
+
+def default_config() -> Dict[str, Any]:
+    """
+    既定設定を返す。
+
+    ポイント:
+    - HTMLは既定でON
+    - テキストは既定でOFF（必要なら設定でON）
+    - ID/時刻は既定で非表示
     """
     return {
         "outputs": {
-            "human_text": True,
-            "human_html": False,
+            "human_text": False,
+            "human_html": True,
+        },
+        "common": {
+            "show_timestamp": False,
+            "show_speaker_id": False,
+        },
+        "html": {
+            "messages_per_page": 1000,
+            "separate_tabs_columns_default": False,
+        },
+        "speaker_grouping": {
+            "enabled": True,
+            "min_messages_for_merge": 15,
+            "min_overlap_messages": 6,
+            "min_overlap_ratio": 0.25,
+            "name_ratio_threshold": 0.12,
+            "min_name_count": 3,
+        },
+        "ui": {
+            "speaker_alias_preview_max_chars": 48,
         },
     }
 
 
-def load_config(config_path: Path) -> Dict[str, Dict[str, object]]:
+def load_config(config_path: Path) -> Dict[str, Any]:
     """
     設定ファイルを読み込む。
-    ファイルが存在しない場合は既定値を使う。
+    ファイルが無い場合は既定値を使う。
     """
     config = default_config()
-
     if not config_path.exists():
         return config
 
     try:
-        # utf-8-sigで読むことで、BOM付きUTF-8設定ファイルも扱えるようにする。
         loaded = json.loads(config_path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as exc:
-        raise ValueError(f"設定ファイルのJSONが壊れています: {config_path}") from exc
+        raise ValueError(f"設定ファイルのJSON解析に失敗しました: {config_path}") from exc
 
     if not isinstance(loaded, dict):
-        raise ValueError("設定ファイルのトップレベルはオブジェクト(JSONの{})である必要があります。")
+        raise ValueError("設定ファイルのトップレベルはオブジェクト(JSONの{})にしてください。")
 
-    outputs = loaded.get("outputs")
-    if outputs is not None:
-        if not isinstance(outputs, dict):
-            raise ValueError("設定ファイルの outputs はオブジェクトである必要があります。")
-        for key in ("human_text", "human_html"):
-            if key in outputs:
-                value = outputs[key]
-                if not isinstance(value, bool):
-                    raise ValueError(f"outputs.{key} は true/false で指定してください。")
-                config["outputs"][key] = value
+    # セクションごとに型を確認しながら上書きする。
+    for section_name in ("outputs", "common", "html", "speaker_grouping", "ui"):
+        loaded_section = loaded.get(section_name)
+        if loaded_section is None:
+            continue
+        if not isinstance(loaded_section, dict):
+            raise ValueError(f"設定ファイルの {section_name} はオブジェクトである必要があります。")
+        for key, value in loaded_section.items():
+            if key in config[section_name]:
+                config[section_name][key] = value
+
+    # 最小限の型チェックと範囲調整を行う。
+    config["outputs"]["human_text"] = bool(config["outputs"]["human_text"])
+    config["outputs"]["human_html"] = bool(config["outputs"]["human_html"])
+    config["common"]["show_timestamp"] = bool(config["common"]["show_timestamp"])
+    config["common"]["show_speaker_id"] = bool(config["common"]["show_speaker_id"])
+    config["html"]["separate_tabs_columns_default"] = bool(config["html"]["separate_tabs_columns_default"])
+    config["speaker_grouping"]["enabled"] = bool(config["speaker_grouping"]["enabled"])
+
+    config["html"]["messages_per_page"] = max(1, int(config["html"]["messages_per_page"]))
+    config["speaker_grouping"]["min_messages_for_merge"] = max(
+        1, int(config["speaker_grouping"]["min_messages_for_merge"])
+    )
+    config["speaker_grouping"]["min_overlap_messages"] = max(
+        1, int(config["speaker_grouping"]["min_overlap_messages"])
+    )
+    config["speaker_grouping"]["min_overlap_ratio"] = max(
+        0.0, min(1.0, float(config["speaker_grouping"]["min_overlap_ratio"]))
+    )
+    config["speaker_grouping"]["name_ratio_threshold"] = max(
+        0.0, min(1.0, float(config["speaker_grouping"]["name_ratio_threshold"]))
+    )
+    config["speaker_grouping"]["min_name_count"] = max(1, int(config["speaker_grouping"]["min_name_count"]))
+    config["ui"]["speaker_alias_preview_max_chars"] = max(
+        10, int(config["ui"]["speaker_alias_preview_max_chars"])
+    )
 
     return config
 
 
+def normalize_text(text: str) -> str:
+    """発言本文を1行へ整形する。"""
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    lines = [line.strip() for line in normalized.split("\n") if line.strip()]
+    return " ".join(lines).strip()
+
+
+def parse_timestamp(raw_timestamp: str | None) -> int | None:
+    """タイムスタンプ属性を整数へ変換する。"""
+    if raw_timestamp is None:
+        return None
+    raw = raw_timestamp.strip()
+    if not raw:
+        return None
+    try:
+        return int(raw)
+    except ValueError:
+        return None
+
+
 def load_chat_root_from_zip(zip_path: Path) -> ET.Element:
-    """
-    zip内のchat.xmlを読み込み、XMLルート要素を返す。
-    chat.xmlがない場合やXMLが壊れている場合は例外にする。
-    """
+    """zip内のchat.xmlを読み込み、XMLルート要素を返す。"""
     with zipfile.ZipFile(zip_path, "r") as archive:
         try:
             xml_bytes = archive.read("chat.xml")
         except KeyError as exc:
-            raise FileNotFoundError("chat.xml が見つかりません。") from exc
+            raise FileNotFoundError("zip内に chat.xml が見つかりません。") from exc
 
     try:
         root = ET.fromstring(xml_bytes)
@@ -192,143 +255,529 @@ def load_chat_root_from_zip(zip_path: Path) -> ET.Element:
     return root
 
 
-def parse_timestamp(raw_timestamp: str | None) -> int | None:
-    """
-    タイムスタンプ属性を整数へ変換する。
-    変換できない場合はNoneを返す。
-    """
-    if raw_timestamp is None:
-        return None
-
-    raw = raw_timestamp.strip()
-    if not raw:
-        return None
-
-    try:
-        return int(raw)
-    except ValueError:
-        return None
-
-
 def extract_tabs_and_messages(root: ET.Element) -> Tuple[List[str], List[ChatMessage]]:
-    """
-    XMLルートからタブ名一覧とチャットメッセージ一覧を取り出す。
-
-    戻り値:
-    - タブ名の順序付きリスト
-    - メッセージのフラットなリスト
-    """
+    """XMLからタブ一覧とメッセージ一覧を抽出する。"""
     tab_names: List[str] = []
     messages: List[ChatMessage] = []
-    sequence = 0
+    seq = 0
 
-    # chat-tab-list配下のchat-tabを順番に処理する。
     for tab in root.findall("chat-tab"):
         tab_name = (tab.get("name") or "無名タブ").strip() or "無名タブ"
         tab_names.append(tab_name)
 
-        # 各タブ内のchat要素を走査して、発言1件ごとに保存する。
         for chat in tab.findall("chat"):
-            # name属性が発言者名。空なら「名無し」にする。
-            speaker = (chat.get("name") or "名無し").strip() or "名無し"
-            # from属性を発言者IDとして使う。空ならunknown。
+            speaker_name = (chat.get("name") or "名無し").strip() or "名無し"
             speaker_id = (chat.get("from") or "unknown").strip() or "unknown"
-            # 画像識別子。none_iconは「画像なし」扱いで使う。
             image_identifier = (chat.get("imageIdentifier") or "").strip()
-            # 発言本文を1行化して扱いやすくする。
             content = normalize_text(chat.text or "")
-            # 空発言はスキップする（空行だらけになるのを防ぐ）。
             if not content:
                 continue
-            # 時系列ソートに使うtimestamp属性を取得する。
-            timestamp = parse_timestamp(chat.get("timestamp"))
 
             messages.append(
                 ChatMessage(
                     tab_name=tab_name,
-                    speaker=speaker,
+                    speaker_name=speaker_name,
                     speaker_id=speaker_id,
                     image_identifier=image_identifier,
                     content=content,
-                    timestamp=timestamp,
-                    sequence=sequence,
+                    timestamp=parse_timestamp(chat.get("timestamp")),
+                    sequence=seq,
                 )
             )
-            sequence += 1
+            seq += 1
 
     return tab_names, messages
 
 
 def sort_messages_chronologically(messages: Sequence[ChatMessage]) -> List[ChatMessage]:
-    """
-    全タブ横断で時系列順に並べる。
-
-    - まずtimestampで昇順
-    - timestampがないものは末尾へ
-    - 同時刻はsequenceで元順序を維持
-    """
+    """全タブ横断で時系列順へ並べる。"""
     return sorted(
         messages,
-        key=lambda item: (
-            item.timestamp is None,
-            item.timestamp if item.timestamp is not None else 0,
-            item.sequence,
+        key=lambda m: (
+            m.timestamp is None,
+            m.timestamp if m.timestamp is not None else 0,
+            m.sequence,
         ),
     )
 
 
-def build_human_output_text(zip_name: str, messages: Sequence[ChatMessage]) -> str:
+def stable_hash(text: str) -> int:
+    """文字列から安定した疑似ハッシュ値を作る。"""
+    value = 0
+    for ch in text:
+        value = (value * 31 + ord(ch)) & 0xFFFFFFFF
+    return value
+
+
+def hsl_to_hex(hue: int, sat: float, light: float) -> str:
+    """HSLをHEXカラーへ変換する。"""
+    # sat/lightは0.0〜1.0で受け取る。
+    c = (1 - abs(2 * light - 1)) * sat
+    x = c * (1 - abs(((hue / 60.0) % 2) - 1))
+    m = light - c / 2
+
+    if hue < 60:
+        r, g, b = c, x, 0
+    elif hue < 120:
+        r, g, b = x, c, 0
+    elif hue < 180:
+        r, g, b = 0, c, x
+    elif hue < 240:
+        r, g, b = 0, x, c
+    elif hue < 300:
+        r, g, b = x, 0, c
+    else:
+        r, g, b = c, 0, x
+
+    rr = int(round((r + m) * 255))
+    gg = int(round((g + m) * 255))
+    bb = int(round((b + m) * 255))
+    return f"#{rr:02x}{gg:02x}{bb:02x}"
+
+
+def default_color_for_key(key: str) -> str:
+    """文字列キーから既定色を安定生成する。"""
+    hue = stable_hash(key) % 360
+    return hsl_to_hex(hue, 0.62, 0.34)
+
+
+def tab_palette(tab_name: str) -> Tuple[str, str]:
+    """タブ表示用の背景色とアクセント色を返す。"""
+    hue = stable_hash(tab_name) % 360
+    bg = hsl_to_hex(hue, 0.55, 0.96)
+    accent = hsl_to_hex(hue, 0.45, 0.56)
+    return bg, accent
+
+
+def build_id_name_counter(messages: Sequence[ChatMessage]) -> Tuple[Dict[str, int], Dict[str, Counter[str]]]:
+    """IDごとの総発言数と、名前の出現回数を集計する。"""
+    id_totals: Dict[str, int] = defaultdict(int)
+    id_name_counts: Dict[str, Counter[str]] = defaultdict(Counter)
+    for msg in messages:
+        id_totals[msg.speaker_id] += 1
+        id_name_counts[msg.speaker_id][msg.speaker_name] += 1
+    return dict(id_totals), dict(id_name_counts)
+
+
+def build_speaker_groups(
+    messages: Sequence[ChatMessage],
+    grouping_config: Dict[str, Any],
+) -> Tuple[List[SpeakerGroup], Dict[str, str]]:
     """
-    人間向けテキストの本文を作る。
-    タブが切り替わったタイミングで見出しを再表示する。
+    ID統合ルールに従って発言者グループを作る。
+
+    戻り値:
+    - グループ一覧
+    - id -> group_key の対応
     """
-    lines: List[str] = []
-    lines.append(f"元ファイル: {zip_name}")
-    lines.append("")
+    id_totals, id_name_counts = build_id_name_counter(messages)
+    all_ids = sorted(id_totals.keys())
 
-    if not messages:
-        lines.append("(発言なし)")
-        return "\n".join(lines).rstrip() + "\n"
+    # 統合を無効化した場合は、ID単位でグループを作って返す。
+    if not grouping_config["enabled"]:
+        groups: List[SpeakerGroup] = []
+        id_to_group_key: Dict[str, str] = {}
+        for speaker_id in all_ids:
+            aliases = sorted(
+                id_name_counts[speaker_id].items(),
+                key=lambda item: (-item[1], item[0]),
+            )
+            representative = aliases[0][0] if aliases else speaker_id
+            group_key = f"id::{speaker_id}"
+            groups.append(
+                SpeakerGroup(
+                    group_key=group_key,
+                    representative_name=representative,
+                    member_ids=(speaker_id,),
+                    aliases_sorted=tuple(aliases),
+                    message_count=id_totals[speaker_id],
+                    default_color=default_color_for_key(group_key),
+                )
+            )
+            id_to_group_key[speaker_id] = group_key
+        return groups, id_to_group_key
 
-    current_tab: str | None = None
-    for message in messages:
-        # タブが変わったら見出しを出す。
-        if message.tab_name != current_tab:
-            lines.append(f"=== タブ: {message.tab_name} ===")
-            current_tab = message.tab_name
+    # 統合ありの場合はUnion-FindでID群をまとめる。
+    uf = UnionFind(all_ids)
 
-        # 最小構成として「発言者: 発言」のみを並べる。
-        lines.append(f"{message.speaker}: {message.content}")
+    # IDごとの「有効名」を作る。
+    # 例外発言を減らすため、少なすぎる頻度の名前は一致判定から除外する。
+    id_valid_names: Dict[str, set[str]] = {}
+    for speaker_id in all_ids:
+        total = id_totals[speaker_id]
+        min_count = max(
+            int(grouping_config["min_name_count"]),
+            int(math.ceil(float(grouping_config["name_ratio_threshold"]) * total)),
+        )
+        valid = {
+            name
+            for name, count in id_name_counts[speaker_id].items()
+            if count >= min_count
+        }
+        id_valid_names[speaker_id] = valid
 
-    # ファイル末尾に改行を1つ入れる。
-    return "\n".join(lines).rstrip() + "\n"
+    # IDペアごとに重なりを見て、条件を満たせば統合する。
+    for a, b in combinations(all_ids, 2):
+        total_a = id_totals[a]
+        total_b = id_totals[b]
+        if min(total_a, total_b) < int(grouping_config["min_messages_for_merge"]):
+            continue
+
+        valid_a = id_valid_names[a]
+        valid_b = id_valid_names[b]
+        common_names = valid_a & valid_b
+        if not common_names:
+            continue
+
+        overlap = sum(min(id_name_counts[a][n], id_name_counts[b][n]) for n in common_names)
+        score = overlap / float(min(total_a, total_b))
+
+        if (
+            overlap >= int(grouping_config["min_overlap_messages"])
+            and score >= float(grouping_config["min_overlap_ratio"])
+        ):
+            uf.union(a, b)
+
+    # rootごとにIDをまとめる。
+    root_to_ids: Dict[str, List[str]] = defaultdict(list)
+    for speaker_id in all_ids:
+        root_to_ids[uf.find(speaker_id)].append(speaker_id)
+
+    groups: List[SpeakerGroup] = []
+    id_to_group_key: Dict[str, str] = {}
+
+    # グループ情報を整形する。
+    for root_id, member_ids in sorted(root_to_ids.items(), key=lambda item: item[0]):
+        alias_counter: Counter[str] = Counter()
+        total_messages = 0
+        for speaker_id in member_ids:
+            alias_counter.update(id_name_counts[speaker_id])
+            total_messages += id_totals[speaker_id]
+
+        aliases_sorted = sorted(alias_counter.items(), key=lambda item: (-item[1], item[0]))
+        representative = aliases_sorted[0][0] if aliases_sorted else root_id
+        group_key = f"group::{root_id}"
+
+        group = SpeakerGroup(
+            group_key=group_key,
+            representative_name=representative,
+            member_ids=tuple(sorted(member_ids)),
+            aliases_sorted=tuple(aliases_sorted),
+            message_count=total_messages,
+            default_color=default_color_for_key(group_key),
+        )
+        groups.append(group)
+        for speaker_id in member_ids:
+            id_to_group_key[speaker_id] = group_key
+
+    # 発言数が多い順で見やすく並べる。
+    groups.sort(key=lambda g: (-g.message_count, g.representative_name))
+    return groups, id_to_group_key
+
+
+def make_alias_preview(aliases: Sequence[Tuple[str, int]], max_chars: int) -> str:
+    """別名一覧の短いプレビュー文字列を作る。"""
+    names = [name for name, _ in aliases]
+    raw = ", ".join(names)
+    if len(raw) <= max_chars:
+        return raw
+    return raw[: max_chars - 1] + "…"
+
+
+def create_hidden_root() -> tk.Tk:
+    """tkinterの非表示ルートを作る。"""
+    if tk is None:  # pragma: no cover - 実行環境依存
+        raise RuntimeError("tkinterが利用できません。GUI実行環境で動かしてください。")
+    root = tk.Tk()
+    root.withdraw()
+    root.update_idletasks()
+    return root
+
+
+def show_progress(message: str) -> None:
+    """進捗をコンソールへ表示する。"""
+    print(message, flush=True)
+
+
+def present_dialog(dialog: tk.Toplevel, width: int, height: int) -> None:
+    """
+    ダイアログを確実に前面表示し、画面中央へ配置する。
+
+    ここを共通化して「裏で待機して見えない」状態を防ぐ。
+    """
+    dialog.withdraw()
+    dialog.update_idletasks()
+
+    screen_w = dialog.winfo_screenwidth()
+    screen_h = dialog.winfo_screenheight()
+    x = max(0, (screen_w - width) // 2)
+    y = max(0, (screen_h - height) // 2)
+    dialog.geometry(f"{width}x{height}+{x}+{y}")
+
+    dialog.deiconify()
+    dialog.lift()
+    try:
+        dialog.focus_set()
+    except Exception:
+        pass
+
+
+def choose_input_zip(root: tk.Tk, input_zip_arg: str) -> Path | None:
+    """入力zipを決める。引数が無ければダイアログで選ぶ。"""
+    if input_zip_arg:
+        return Path(input_zip_arg).expanduser().resolve()
+
+    selected = filedialog.askopenfilename(
+        parent=root,
+        title="Udonariumの部屋データ(zip)を選択してください",
+        filetypes=[("Zip files", "*.zip"), ("All files", "*.*")],
+    )
+    if not selected:
+        return None
+    return Path(selected).resolve()
+
+
+def show_speaker_color_dialog(
+    root: tk.Tk,
+    groups: Sequence[SpeakerGroup],
+    preview_max_chars: int,
+) -> Dict[str, str] | None:
+    """
+    発言者グループごとの色選択ダイアログを表示する。
+
+    戻り値:
+    - 確定: group_key -> color
+    - キャンセル: None
+    """
+    dialog = tk.Toplevel()
+    dialog.title("発言者ごとの文字色設定")
+    dialog.minsize(760, 420)
+    show_progress("色設定ダイアログUIを構築しています...")
+
+    # 結果を外へ返すための入れ物。
+    result_holder: Dict[str, Dict[str, str] | None] = {"value": None}
+
+    header = tk.Label(
+        dialog,
+        text=(
+            "色を設定してください。ここで設定した色がHTML出力へ固定で反映されます。\n"
+            "※ 同じグループは同じ色になります。"
+        ),
+        justify="left",
+        anchor="w",
+    )
+    header.pack(fill="x", padx=10, pady=(10, 6))
+
+    # スクロール領域を作る（グループ数が多くても扱えるようにする）。
+    outer = tk.Frame(dialog)
+    outer.pack(fill="both", expand=True, padx=10, pady=6)
+
+    canvas = tk.Canvas(outer, highlightthickness=0)
+    scrollbar = tk.Scrollbar(outer, orient="vertical", command=canvas.yview)
+    scroll_frame = tk.Frame(canvas)
+
+    scroll_frame.bind(
+        "<Configure>",
+        lambda _e: canvas.configure(scrollregion=canvas.bbox("all")),
+    )
+    canvas.create_window((0, 0), window=scroll_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    selected_colors: Dict[str, str] = {g.group_key: g.default_color for g in groups}
+
+    # 1グループ1行で色設定UIを作る。
+    for group in groups:
+        row = tk.Frame(scroll_frame, bd=1, relief="solid", padx=6, pady=4)
+        row.pack(fill="x", pady=2)
+
+        swatch = tk.Label(row, width=3, bg=selected_colors[group.group_key], relief="ridge")
+        swatch.grid(row=0, column=0, rowspan=2, sticky="nsw", padx=(0, 8))
+
+        summary_text = (
+            f"{group.representative_name}  "
+            f"(発言 {group.message_count}件 / ID {len(group.member_ids)}個)"
+        )
+        tk.Label(row, text=summary_text, anchor="w", justify="left", font=("", 10, "bold")).grid(
+            row=0, column=1, sticky="w"
+        )
+
+        alias_preview = make_alias_preview(group.aliases_sorted, preview_max_chars)
+        tk.Label(
+            row,
+            text=f"別名: {alias_preview}",
+            anchor="w",
+            justify="left",
+            fg="#555555",
+        ).grid(row=1, column=1, sticky="w")
+
+        def choose_color(target_group: SpeakerGroup = group, target_swatch: tk.Label = swatch) -> None:
+            current = selected_colors[target_group.group_key]
+            _rgb, picked = colorchooser.askcolor(
+                color=current,
+                parent=dialog,
+                title=f"色を選択: {target_group.representative_name}",
+            )
+            if picked:
+                selected_colors[target_group.group_key] = picked.lower()
+                target_swatch.configure(bg=picked)
+
+        tk.Button(row, text="色を変更", command=choose_color).grid(row=0, column=2, rowspan=2, padx=(8, 0))
+
+        row.grid_columnconfigure(1, weight=1)
+
+    button_row = tk.Frame(dialog)
+    button_row.pack(fill="x", padx=10, pady=(0, 10))
+
+    def on_ok() -> None:
+        result_holder["value"] = dict(selected_colors)
+        dialog.destroy()
+
+    def on_cancel() -> None:
+        result_holder["value"] = None
+        dialog.destroy()
+
+    tk.Button(button_row, text="確定", command=on_ok, width=10).pack(side="right", padx=(6, 0))
+    tk.Button(button_row, text="キャンセル", command=on_cancel, width=10).pack(side="right")
+
+    dialog.protocol("WM_DELETE_WINDOW", on_cancel)
+    dialog.bind("<Escape>", lambda _e: on_cancel())
+    present_dialog(dialog, width=920, height=620)
+    show_progress("色設定ダイアログを表示しました。")
+    dialog.wait_window()
+    show_progress("色設定ダイアログを終了しました。")
+    return result_holder["value"]
+
+
+def show_tab_selection_dialog(
+    root: tk.Tk,
+    tab_names: Sequence[str],
+    tab_counts: Dict[str, int],
+    separate_columns_default: bool,
+) -> Tuple[List[str], bool] | None:
+    """
+    タブ選択ダイアログを表示する。
+
+    戻り値:
+    - 確定: (選択タブ一覧, 列分割モード)
+    - キャンセル: None
+    """
+    dialog = tk.Toplevel()
+    dialog.title("タブ選択")
+    dialog.minsize(520, 360)
+    show_progress("タブ選択ダイアログUIを構築しています...")
+
+    result_holder: Dict[str, Tuple[List[str], bool] | None] = {"value": None}
+
+    tk.Label(
+        dialog,
+        text="出力に含めるタブを選択してください（複数選択可）。",
+        anchor="w",
+        justify="left",
+    ).pack(fill="x", padx=10, pady=(10, 6))
+
+    options_frame = tk.Frame(dialog)
+    options_frame.pack(fill="x", padx=10, pady=(0, 8))
+
+    separate_var = tk.BooleanVar(value=separate_columns_default)
+    tk.Checkbutton(
+        options_frame,
+        text="タブを完全に別列で表示する（OFFなら1列＋左余白インデント）",
+        variable=separate_var,
+    ).pack(anchor="w")
+
+    list_frame = tk.Frame(dialog)
+    list_frame.pack(fill="both", expand=True, padx=10, pady=6)
+
+    canvas = tk.Canvas(list_frame, highlightthickness=0)
+    scrollbar = tk.Scrollbar(list_frame, orient="vertical", command=canvas.yview)
+    inner = tk.Frame(canvas)
+
+    inner.bind("<Configure>", lambda _e: canvas.configure(scrollregion=canvas.bbox("all")))
+    canvas.create_window((0, 0), window=inner, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    tab_vars: Dict[str, tk.BooleanVar] = {}
+    for tab_name in tab_names:
+        var = tk.BooleanVar(value=True)
+        tab_vars[tab_name] = var
+        count = tab_counts.get(tab_name, 0)
+        tk.Checkbutton(inner, text=f"{tab_name}  ({count}件)", variable=var).pack(anchor="w", pady=1)
+
+    button_row = tk.Frame(dialog)
+    button_row.pack(fill="x", padx=10, pady=(0, 10))
+
+    def on_ok() -> None:
+        selected = [name for name in tab_names if tab_vars[name].get()]
+        if not selected:
+            messagebox.showwarning("タブ未選択", "少なくとも1つはタブを選択してください。", parent=dialog)
+            return
+        result_holder["value"] = (selected, bool(separate_var.get()))
+        dialog.destroy()
+
+    def on_cancel() -> None:
+        result_holder["value"] = None
+        dialog.destroy()
+
+    tk.Button(button_row, text="確定", command=on_ok, width=10).pack(side="right", padx=(6, 0))
+    tk.Button(button_row, text="キャンセル", command=on_cancel, width=10).pack(side="right")
+
+    dialog.protocol("WM_DELETE_WINDOW", on_cancel)
+    dialog.bind("<Escape>", lambda _e: on_cancel())
+    present_dialog(dialog, width=640, height=560)
+    show_progress("タブ選択ダイアログを表示しました。")
+    dialog.wait_window()
+    show_progress("タブ選択ダイアログを終了しました。")
+    return result_holder["value"]
+
+
+def make_unique_path(path: Path) -> Path:
+    """既存ファイルと衝突しないパスを返す。"""
+    if not path.exists():
+        return path
+    idx = 1
+    while True:
+        candidate = path.with_name(f"{path.stem}_{idx}{path.suffix}")
+        if not candidate.exists():
+            return candidate
+        idx += 1
+
+
+def make_unique_directory(path: Path) -> Path:
+    """既存フォルダと衝突しないパスを返す。"""
+    if not path.exists():
+        return path
+    idx = 1
+    while True:
+        candidate = path.with_name(f"{path.name}_{idx}")
+        if not candidate.exists():
+            return candidate
+        idx += 1
+
+
+def ensure_directory(path: Path) -> None:
+    """フォルダが無ければ作成する。"""
+    path.mkdir(parents=True, exist_ok=True)
 
 
 def build_zip_image_index(archive: zipfile.ZipFile) -> Dict[str, zipfile.ZipInfo]:
-    """
-    zip内の画像ファイルを「識別子(stem) -> ZipInfo」の辞書にまとめる。
-
-    例:
-    - 1234567890abcdef.png -> keyは "1234567890abcdef"
-    """
+    """zip内画像を imageIdentifier(stem) で引ける辞書へ変換する。"""
     index: Dict[str, zipfile.ZipInfo] = {}
-
     for info in archive.infolist():
         if info.is_dir():
             continue
-
-        filename = Path(info.filename).name
-        suffix = Path(filename).suffix.lower()
-
-        # 画像拡張子以外は対象外にする。
+        file_name = Path(info.filename).name
+        suffix = Path(file_name).suffix.lower()
         if suffix not in IMAGE_EXTENSIONS:
             continue
-
-        stem = Path(filename).stem
-        # 同一stemが複数ある場合は、最初のものを採用する。
+        stem = Path(file_name).stem
         if stem not in index:
             index[stem] = info
-
     return index
 
 
@@ -338,224 +787,170 @@ def extract_used_images(
     images_dir: Path,
 ) -> Dict[str, str]:
     """
-    HTML表示に必要な画像だけをzipから取り出し、imagesフォルダへ保存する。
+    使われる画像だけ抽出して保存する。
 
     戻り値:
-    - imageIdentifier -> HTMLから参照する相対パス（assets/images/...）
+    - image_identifier -> HTML相対パス
     """
     ensure_directory(images_dir)
+    used_ids = sorted(
+        {
+            msg.image_identifier
+            for msg in messages
+            if msg.image_identifier and msg.image_identifier != "none_icon"
+        }
+    )
 
-    # 発言で使われたimageIdentifierだけを対象にする。
-    used_identifiers = {
-        msg.image_identifier
-        for msg in messages
-        if msg.image_identifier and msg.image_identifier != "none_icon"
-    }
-
-    image_path_map: Dict[str, str] = {}
-    used_filenames: set[str] = set()
+    image_map: Dict[str, str] = {}
+    used_file_names: set[str] = set()
 
     with zipfile.ZipFile(zip_path, "r") as archive:
         image_index = build_zip_image_index(archive)
-
-        for identifier in sorted(used_identifiers):
-            info = image_index.get(identifier)
+        for image_id in used_ids:
+            info = image_index.get(image_id)
             if info is None:
-                # 見つからない場合は画像なし扱いにする。
                 continue
 
             original_name = Path(info.filename).name
-            target_name = original_name
+            save_name = original_name
+            if save_name in used_file_names:
+                save_name = f"{image_id}{Path(original_name).suffix.lower()}"
+            used_file_names.add(save_name)
 
-            # 念のため同名衝突を回避する。
-            if target_name in used_filenames:
-                target_name = f"{identifier}{Path(original_name).suffix.lower()}"
-            used_filenames.add(target_name)
+            target_path = images_dir / save_name
+            target_path.write_bytes(archive.read(info))
+            image_map[image_id] = f"assets/images/{save_name}"
 
-            image_bytes = archive.read(info)
-            target_path = images_dir / target_name
-            target_path.write_bytes(image_bytes)
-
-            # HTML内では、bundle直下からの相対パスで参照する。
-            image_path_map[identifier] = f"assets/images/{target_name}"
-
-    return image_path_map
+    return image_map
 
 
-def build_html_index_html(source_zip_name: str) -> str:
-    """HTML本体(index.html)を生成する。"""
-    return f"""<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Udonarium Log Viewer - {source_zip_name}</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body>
-  <header id="menu" class="menu">
-    <div class="menu-line">
-      <strong class="menu-title">Udonarium Log Viewer</strong>
-      <span id="source-name" class="source-name"></span>
-    </div>
-    <div class="menu-line controls">
-      <label><input id="toggle-timestamp" type="checkbox" /> タイムスタンプ表示</label>
-      <label><input id="toggle-speaker-id" type="checkbox" /> ID表示</label>
-      <label><input id="toggle-columns" type="checkbox" /> タブを別列で表示</label>
-    </div>
-    <details open>
-      <summary>タブ表示切り替え</summary>
-      <div id="tab-filters" class="tab-filters"></div>
-    </details>
-    <details>
-      <summary>発言者の文字色</summary>
-      <div id="speaker-color-list" class="speaker-color-list"></div>
-    </details>
-  </header>
+def chunk_messages(messages: Sequence[ChatMessage], size: int) -> List[List[ChatMessage]]:
+    """メッセージをページサイズごとに分割する。"""
+    if not messages:
+        return [[]]
+    chunks: List[List[ChatMessage]] = []
+    for i in range(0, len(messages), size):
+        chunks.append(list(messages[i : i + size]))
+    return chunks
 
-  <main id="log-root" class="log-root"></main>
 
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
-</body>
-</html>
-"""
+def format_timestamp(timestamp: int | None) -> str:
+    """タイムスタンプ(ms)を表示文字列へ変換する。"""
+    if timestamp is None:
+        return "-"
+    try:
+        dt = datetime.fromtimestamp(timestamp / 1000.0)
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return str(timestamp)
+
+
+def escape(text: str) -> str:
+    """HTMLエスケープの短縮ヘルパー。"""
+    return html.escape(text, quote=True)
 
 
 def build_html_css() -> str:
-    """HTML表示用のCSSを生成する。"""
-    return """/* 基本設定: 余白は控えめで、長文ログを読みやすくする */
+    """静的HTML用のCSSを返す。"""
+    return """/* 軽量な静的ログ表示用スタイル */
 :root {
-  --menu-height: 220px;
   --bg: #f7f7f7;
-  --text: #1f1f1f;
-  --muted: #666;
   --panel: #ffffff;
-  --border: #dddddd;
+  --text: #222;
+  --muted: #666;
+  --border: #d9d9d9;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   background: var(--bg);
   color: var(--text);
   font-family: "Yu Gothic UI", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  font-size: 14px;
   line-height: 1.45;
-  font-size: 14px;
 }
 
-.menu {
-  position: fixed;
+.top {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: var(--panel);
+  z-index: 20;
+  background: #ffffffee;
+  backdrop-filter: blur(2px);
   border-bottom: 1px solid var(--border);
-  padding: 6px 8px;
-  max-height: 48vh;
-  overflow: auto;
+  padding: 8px 10px;
 }
 
-.menu-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.menu-line.controls label {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-}
-
-.menu-title {
+.title {
+  font-weight: 700;
   font-size: 14px;
 }
 
-.source-name {
-  font-size: 12px;
+.meta {
+  margin-top: 2px;
   color: var(--muted);
+  font-size: 12px;
   word-break: break-all;
 }
 
-details {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: #fcfcfc;
-  padding: 4px 6px;
-  margin-bottom: 6px;
-}
-
-details summary {
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.tab-filters,
-.speaker-color-list {
-  display: grid;
-  gap: 4px;
-  margin-top: 6px;
-}
-
-.tab-filters {
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-}
-
-.speaker-color-list {
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-}
-
-.tab-filter-item,
-.speaker-color-item {
+.pager {
+  margin-top: 8px;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
-  padding: 2px 0;
+  align-items: center;
   font-size: 12px;
 }
 
-.speaker-id-preview {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.log-root {
-  padding: calc(var(--menu-height) + 8px) 8px 10px;
-}
-
-.empty-state {
-  color: var(--muted);
-  padding: 8px;
-  border: 1px dashed var(--border);
+.pager a {
+  color: #1f4ea3;
+  text-decoration: none;
+  border: 1px solid #b8c7e8;
   border-radius: 4px;
-  background: #fff;
+  padding: 2px 6px;
+  background: #f4f8ff;
 }
 
-.log-stream {
+.pager .current {
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 2px 6px;
+  background: #f0f0f0;
+}
+
+.content {
+  padding: 8px 10px 14px;
+}
+
+.empty {
+  border: 1px dashed var(--border);
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  color: var(--muted);
+}
+
+.stream {
   display: block;
 }
 
-.tab-separator {
-  margin: 8px 0 4px;
-  padding-left: 6px;
+/* 1列モードでは左余白を持たせ、タブ単位のかたまり感を出す */
+.tab-segment {
+  margin: 8px 0;
+  padding-left: 10px;
   border-left: 4px solid var(--tab-accent, #999);
-  color: #444;
-  font-weight: 700;
-  font-size: 12px;
 }
 
-.message-row {
+.tab-head {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #444;
+}
+
+.msg {
   display: flex;
   gap: 8px;
   margin: 3px 0;
@@ -578,34 +973,33 @@ details summary {
   width: 32px;
   height: 32px;
   border-radius: 4px;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  background: #e4e4e4;
   color: #555;
-  background: #e3e3e3;
-  flex: 0 0 auto;
+  font-size: 11px;
 }
 
-.message-main {
+.msg-main {
   min-width: 0;
   flex: 1 1 auto;
 }
 
-.message-header {
+.msg-head {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
   align-items: baseline;
+  gap: 6px;
   margin-bottom: 1px;
 }
 
-.speaker-name {
+.speaker {
   font-weight: 700;
 }
 
-.meta {
-  display: none;
+.submeta {
   color: var(--muted);
   font-size: 11px;
 }
@@ -618,20 +1012,13 @@ details summary {
   padding: 0 6px;
 }
 
-.message-content {
+.msg-text {
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-body.show-timestamp .meta-timestamp {
-  display: inline;
-}
-
-body.show-speaker-id .meta-speaker-id {
-  display: inline;
-}
-
-.columns-grid {
+/* 別列モード */
+.tab-columns {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(260px, 1fr);
@@ -649,22 +1036,20 @@ body.show-speaker-id .meta-speaker-id {
 }
 
 .tab-column-title {
-  font-size: 12px;
-  font-weight: 700;
   margin: 0 0 4px;
   padding: 2px 4px;
   border-left: 4px solid var(--tab-accent, #999);
   background: var(--tab-bg, #f5f5f5);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 @media (max-width: 640px) {
-  .message-row {
+  .msg {
     gap: 6px;
     padding: 3px 4px;
   }
-
-  .avatar,
-  .avatar-fallback {
+  .avatar, .avatar-fallback {
     width: 28px;
     height: 28px;
   }
@@ -672,579 +1057,452 @@ body.show-speaker-id .meta-speaker-id {
 """
 
 
-def build_html_app_js() -> str:
-    """HTML表示用のJavaScriptを生成する。"""
-    return r"""(() => {
-  "use strict";
-
-  // data.jsで注入したログデータを参照する。
-  const data = window.UDONARIUM_LOG_DATA;
-  if (!data || !Array.isArray(data.messages)) {
-    return;
-  }
-
-  // 画面上の主要ノードを最初に取得しておく。
-  const menu = document.getElementById("menu");
-  const logRoot = document.getElementById("log-root");
-  const sourceName = document.getElementById("source-name");
-  const tabFilters = document.getElementById("tab-filters");
-  const speakerColorList = document.getElementById("speaker-color-list");
-  const toggleTimestamp = document.getElementById("toggle-timestamp");
-  const toggleSpeakerId = document.getElementById("toggle-speaker-id");
-  const toggleColumns = document.getElementById("toggle-columns");
-
-  // 画面に元zip名を表示する。
-  sourceName.textContent = data.source_file || "";
-
-  // 発言者一覧とタブ別メッセージ一覧を前処理しておく。
-  const speakerMap = buildSpeakerMap(data.messages);
-  const tabOrder = Array.isArray(data.tabs) ? data.tabs.slice() : [];
-  const messagesByTab = buildMessagesByTab(tabOrder, data.messages);
-
-  // UIの現在状態を一元管理する。
-  const state = {
-    showTimestamp: false,
-    showSpeakerId: false,
-    separateColumns: false,
-    visibleTabs: new Set(tabOrder),
-    speakerColors: new Map(),
-  };
-
-  // 発言者IDごとに初期色を作る（同じIDは同じ色）。
-  for (const speakerId of speakerMap.keys()) {
-    state.speakerColors.set(speakerId, defaultSpeakerColor(speakerId));
-  }
-
-  // 初期描画。
-  renderTabFilters();
-  renderSpeakerColorControls();
-  bindToggles();
-  applyBodyClasses();
-  renderLog();
-  syncMenuHeight();
-
-  // メニュー高さは開閉やリサイズで変わるので都度再計算する。
-  window.addEventListener("resize", syncMenuHeight);
-  menu.addEventListener("toggle", syncMenuHeight, true);
-
-  function buildSpeakerMap(messages) {
-    const map = new Map();
-    for (const msg of messages) {
-      const speakerId = normalizeSpeakerId(msg.speaker_id);
-      if (!map.has(speakerId)) {
-        map.set(speakerId, msg.speaker || "名無し");
-      }
-    }
-    return map;
-  }
-
-  function buildMessagesByTab(tabs, messages) {
-    const map = new Map();
-    for (const tab of tabs) {
-      map.set(tab, []);
-    }
-    for (const msg of messages) {
-      if (!map.has(msg.tab)) {
-        map.set(msg.tab, []);
-      }
-      map.get(msg.tab).push(msg);
-    }
-    return map;
-  }
-
-  function normalizeSpeakerId(rawValue) {
-    const value = (rawValue || "").trim();
-    return value || "unknown";
-  }
-
-  function bindToggles() {
-    toggleTimestamp.addEventListener("change", () => {
-      state.showTimestamp = toggleTimestamp.checked;
-      applyBodyClasses();
-    });
-
-    toggleSpeakerId.addEventListener("change", () => {
-      state.showSpeakerId = toggleSpeakerId.checked;
-      applyBodyClasses();
-    });
-
-    toggleColumns.addEventListener("change", () => {
-      state.separateColumns = toggleColumns.checked;
-      renderLog();
-    });
-  }
-
-  function applyBodyClasses() {
-    document.body.classList.toggle("show-timestamp", state.showTimestamp);
-    document.body.classList.toggle("show-speaker-id", state.showSpeakerId);
-  }
-
-  function renderTabFilters() {
-    tabFilters.textContent = "";
-
-    for (const tabName of tabOrder) {
-      const item = document.createElement("label");
-      item.className = "tab-filter-item";
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = state.visibleTabs.has(tabName);
-      checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
-          state.visibleTabs.add(tabName);
-        } else {
-          state.visibleTabs.delete(tabName);
-        }
-        renderLog();
-      });
-
-      const label = document.createElement("span");
-      label.textContent = tabName;
-
-      item.appendChild(checkbox);
-      item.appendChild(label);
-      tabFilters.appendChild(item);
-    }
-  }
-
-  function renderSpeakerColorControls() {
-    speakerColorList.textContent = "";
-
-    for (const [speakerId, displayName] of speakerMap.entries()) {
-      const row = document.createElement("div");
-      row.className = "speaker-color-item";
-
-      const colorInput = document.createElement("input");
-      colorInput.type = "color";
-      colorInput.value = state.speakerColors.get(speakerId);
-      colorInput.addEventListener("input", () => {
-        state.speakerColors.set(speakerId, colorInput.value);
-        renderLog();
-      });
-
-      const name = document.createElement("span");
-      name.textContent = displayName;
-      name.style.color = state.speakerColors.get(speakerId);
-
-      const idPreview = document.createElement("span");
-      idPreview.className = "speaker-id-preview";
-      idPreview.textContent = `(${speakerId})`;
-
-      row.appendChild(colorInput);
-      row.appendChild(name);
-      row.appendChild(idPreview);
-      speakerColorList.appendChild(row);
-    }
-  }
-
-  function renderLog() {
-    logRoot.textContent = "";
-
-    if (state.separateColumns) {
-      renderColumnsMode();
-      return;
-    }
-    renderStreamMode();
-  }
-
-  function renderStreamMode() {
-    const visibleMessages = data.messages.filter((msg) => state.visibleTabs.has(msg.tab));
-    if (visibleMessages.length === 0) {
-      logRoot.appendChild(createEmptyState("表示対象の発言がありません。"));
-      return;
-    }
-
-    const stream = document.createElement("div");
-    stream.className = "log-stream";
-
-    let lastTab = null;
-    for (const msg of visibleMessages) {
-      // タブが切り替わったときに見出し行を挿入する。
-      if (msg.tab !== lastTab) {
-        const separator = document.createElement("div");
-        separator.className = "tab-separator";
-        separator.textContent = `タブ: ${msg.tab}`;
-
-        const palette = tabPalette(msg.tab);
-        separator.style.setProperty("--tab-accent", palette.accent);
-
-        stream.appendChild(separator);
-        lastTab = msg.tab;
-      }
-
-      stream.appendChild(createMessageRow(msg));
-    }
-
-    logRoot.appendChild(stream);
-  }
-
-  function renderColumnsMode() {
-    const grid = document.createElement("div");
-    grid.className = "columns-grid";
-
-    let appendedColumnCount = 0;
-    for (const tabName of tabOrder) {
-      if (!state.visibleTabs.has(tabName)) {
-        continue;
-      }
-
-      const tabMessages = messagesByTab.get(tabName) || [];
-      const column = document.createElement("section");
-      column.className = "tab-column";
-
-      const palette = tabPalette(tabName);
-      column.style.setProperty("--tab-bg", palette.bg);
-      column.style.setProperty("--tab-accent", palette.accent);
-
-      const title = document.createElement("h2");
-      title.className = "tab-column-title";
-      title.textContent = tabName;
-      column.appendChild(title);
-
-      if (tabMessages.length === 0) {
-        column.appendChild(createEmptyState("このタブに発言はありません。"));
-      } else {
-        for (const msg of tabMessages) {
-          column.appendChild(createMessageRow(msg));
-        }
-      }
-
-      grid.appendChild(column);
-      appendedColumnCount += 1;
-    }
-
-    if (appendedColumnCount === 0) {
-      logRoot.appendChild(createEmptyState("表示対象のタブがありません。"));
-      return;
-    }
-
-    logRoot.appendChild(grid);
-  }
-
-  function createMessageRow(msg) {
-    const row = document.createElement("article");
-    row.className = "message-row";
-    row.dataset.tab = msg.tab;
-
-    const palette = tabPalette(msg.tab);
-    row.style.setProperty("--tab-bg", palette.bg);
-    row.style.setProperty("--tab-accent", palette.accent);
-
-    // 画像があれば表示し、なければ簡易イニシャルを表示する。
-    if (msg.image) {
-      const avatar = document.createElement("img");
-      avatar.className = "avatar";
-      avatar.src = msg.image;
-      avatar.alt = `${msg.speaker || "名無し"} の画像`;
-      avatar.loading = "lazy";
-      row.appendChild(avatar);
-    } else {
-      const fallback = document.createElement("div");
-      fallback.className = "avatar-fallback";
-      fallback.textContent = speakerInitial(msg.speaker);
-      row.appendChild(fallback);
-    }
-
-    const main = document.createElement("div");
-    main.className = "message-main";
-
-    const header = document.createElement("div");
-    header.className = "message-header";
-
-    const speakerName = document.createElement("span");
-    speakerName.className = "speaker-name";
-    speakerName.textContent = msg.speaker || "名無し";
-    const speakerId = normalizeSpeakerId(msg.speaker_id);
-    speakerName.style.color = state.speakerColors.get(speakerId) || defaultSpeakerColor(speakerId);
-    header.appendChild(speakerName);
-
-    const speakerIdMeta = document.createElement("span");
-    speakerIdMeta.className = "meta meta-speaker-id";
-    speakerIdMeta.textContent = `ID: ${speakerId}`;
-    header.appendChild(speakerIdMeta);
-
-    const timestampMeta = document.createElement("span");
-    timestampMeta.className = "meta meta-timestamp";
-    timestampMeta.textContent = `時刻: ${formatTimestamp(msg.timestamp)}`;
-    header.appendChild(timestampMeta);
-
-    const tabChip = document.createElement("span");
-    tabChip.className = "tab-chip";
-    tabChip.textContent = msg.tab;
-    header.appendChild(tabChip);
-
-    const content = document.createElement("div");
-    content.className = "message-content";
-    content.textContent = msg.message || "";
-
-    main.appendChild(header);
-    main.appendChild(content);
-    row.appendChild(main);
-
-    return row;
-  }
-
-  function createEmptyState(text) {
-    const empty = document.createElement("div");
-    empty.className = "empty-state";
-    empty.textContent = text;
-    return empty;
-  }
-
-  function speakerInitial(name) {
-    const trimmed = (name || "").trim();
-    if (!trimmed) {
-      return "?";
-    }
-    return trimmed.slice(0, 1);
-  }
-
-  function formatTimestamp(rawValue) {
-    if (rawValue === null || rawValue === undefined) {
-      return "-";
-    }
-    const num = Number(rawValue);
-    if (!Number.isFinite(num)) {
-      return String(rawValue);
-    }
-    const dt = new Date(num);
-    if (Number.isNaN(dt.getTime())) {
-      return String(rawValue);
-    }
-    return dt.toLocaleString("ja-JP", { hour12: false });
-  }
-
-  function syncMenuHeight() {
-    const menuHeight = menu ? menu.offsetHeight : 0;
-    document.documentElement.style.setProperty("--menu-height", `${menuHeight}px`);
-  }
-
-  // タブ名から背景色/境界色を安定生成する。
-  function tabPalette(tabName) {
-    const hue = hashString(tabName) % 360;
-    return {
-      bg: `hsl(${hue}, 58%, 96%)`,
-      accent: `hsl(${hue}, 45%, 56%)`,
-    };
-  }
-
-  // 発言者IDから文字色を安定生成する。
-  function defaultSpeakerColor(speakerId) {
-    const hue = hashString(speakerId) % 360;
-    return hslToHex(hue, 62, 34);
-  }
-
-  // 簡単な文字列ハッシュ（同じ入力なら同じ値）。
-  function hashString(text) {
-    let hash = 0;
-    for (let i = 0; i < text.length; i += 1) {
-      hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
-    }
-    return hash;
-  }
-
-  // HSLからcolor input用のHEXへ変換する。
-  function hslToHex(h, s, l) {
-    const sat = s / 100;
-    const light = l / 100;
-    const c = (1 - Math.abs(2 * light - 1)) * sat;
-    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = light - c / 2;
-    let r = 0;
-    let g = 0;
-    let b = 0;
-
-    if (h < 60) {
-      r = c;
-      g = x;
-    } else if (h < 120) {
-      r = x;
-      g = c;
-    } else if (h < 180) {
-      g = c;
-      b = x;
-    } else if (h < 240) {
-      g = x;
-      b = c;
-    } else if (h < 300) {
-      r = x;
-      b = c;
-    } else {
-      r = c;
-      b = x;
-    }
-
-    const rr = Math.round((r + m) * 255);
-    const gg = Math.round((g + m) * 255);
-    const bb = Math.round((b + m) * 255);
-    return `#${toHex(rr)}${toHex(gg)}${toHex(bb)}`;
-  }
-
-  function toHex(value) {
-    return value.toString(16).padStart(2, "0");
-  }
-})();
-"""
-
-
-def build_html_data_js(
-    source_zip_name: str,
-    tab_names: Sequence[str],
-    messages: Sequence[ChatMessage],
-    image_path_map: Dict[str, str],
+def render_message_html(
+    message: ChatMessage,
+    speaker_color: str,
+    image_src: str | None,
+    show_timestamp: bool,
+    show_speaker_id: bool,
+    show_tab_chip: bool,
+    tab_bg: str,
+    tab_accent: str,
 ) -> str:
-    """
-    HTML側へ渡すデータ(data.js)を生成する。
-    data.jsは単純なグローバル変数代入にして、ローカル閲覧時も動作しやすくする。
-    """
-    payload_messages: List[Dict[str, Any]] = []
-    for msg in messages:
-        payload_messages.append(
-            {
-                "tab": msg.tab_name,
-                "speaker": msg.speaker,
-                "speaker_id": msg.speaker_id,
-                "message": msg.content,
-                "timestamp": msg.timestamp,
-                "image": image_path_map.get(msg.image_identifier),
-            }
+    """1発言分のHTMLを作る。"""
+    if image_src:
+        avatar_html = (
+            f'<img class="avatar" src="{escape(image_src)}" '
+            f'alt="{escape(message.speaker_name)} の画像" loading="lazy" />'
+        )
+    else:
+        initial = message.speaker_name[:1] if message.speaker_name else "?"
+        avatar_html = f'<div class="avatar-fallback">{escape(initial)}</div>'
+
+    submeta_parts: List[str] = []
+    if show_speaker_id:
+        submeta_parts.append(f"ID: {escape(message.speaker_id)}")
+    if show_timestamp:
+        submeta_parts.append(f"時刻: {escape(format_timestamp(message.timestamp))}")
+    submeta_html = ""
+    if submeta_parts:
+        submeta_html = f'<span class="submeta">{" / ".join(submeta_parts)}</span>'
+
+    tab_chip_html = f'<span class="tab-chip">{escape(message.tab_name)}</span>' if show_tab_chip else ""
+
+    return (
+        f'<article class="msg" style="--tab-bg:{tab_bg}; --tab-accent:{tab_accent};">'
+        f"{avatar_html}"
+        f'<div class="msg-main">'
+        f'<div class="msg-head">'
+        f'<span class="speaker" style="color:{speaker_color};">{escape(message.speaker_name)}</span>'
+        f"{submeta_html}"
+        f"{tab_chip_html}"
+        f"</div>"
+        f'<div class="msg-text">{escape(message.content)}</div>'
+        f"</div>"
+        f"</article>"
+    )
+
+
+def build_pager_html(page_index: int, total_pages: int) -> str:
+    """ページャーHTMLを作る。"""
+    # ページファイル名は、1ページ目だけ index.html にする。
+    def file_name(idx: int) -> str:
+        if idx == 0:
+            return "index.html"
+        return f"page-{idx + 1:03d}.html"
+
+    parts: List[str] = ['<nav class="pager">']
+    if total_pages <= 1:
+        parts.append('<span class="current">1 / 1</span>')
+        parts.append("</nav>")
+        return "".join(parts)
+
+    if page_index > 0:
+        parts.append(f'<a href="{file_name(0)}">先頭</a>')
+        parts.append(f'<a href="{file_name(page_index - 1)}">前へ</a>')
+
+    # 現在ページの前後2ページだけ表示して、リンクを増やしすぎない。
+    start = max(0, page_index - 2)
+    end = min(total_pages, page_index + 3)
+    for idx in range(start, end):
+        if idx == page_index:
+            parts.append(f'<span class="current">{idx + 1}</span>')
+        else:
+            parts.append(f'<a href="{file_name(idx)}">{idx + 1}</a>')
+
+    if page_index < total_pages - 1:
+        parts.append(f'<a href="{file_name(page_index + 1)}">次へ</a>')
+        parts.append(f'<a href="{file_name(total_pages - 1)}">末尾</a>')
+
+    parts.append(f'<span class="current">{page_index + 1} / {total_pages}</span>')
+    parts.append("</nav>")
+    return "".join(parts)
+
+
+def render_stream_page_html(
+    page_messages: Sequence[ChatMessage],
+    show_timestamp: bool,
+    show_speaker_id: bool,
+    id_to_group_key: Dict[str, str],
+    group_colors: Dict[str, str],
+    image_map: Dict[str, str],
+) -> str:
+    """1列表示モードの本文HTMLを作る。"""
+    if not page_messages:
+        return '<div class="empty">このページに表示する発言がありません。</div>'
+
+    parts: List[str] = ['<div class="stream">']
+    current_tab: str | None = None
+    segment_open = False
+
+    for msg in page_messages:
+        # タブが変わったら、前のセグメントを閉じて新しいセグメントを開く。
+        if msg.tab_name != current_tab:
+            if segment_open:
+                parts.append("</section>")
+            bg, accent = tab_palette(msg.tab_name)
+            parts.append(
+                f'<section class="tab-segment" style="--tab-bg:{bg}; --tab-accent:{accent};">'
+                f'<div class="tab-head">タブ: {escape(msg.tab_name)}</div>'
+            )
+            segment_open = True
+            current_tab = msg.tab_name
+
+        group_key = id_to_group_key.get(msg.speaker_id, f"name::{msg.speaker_name}")
+        color = group_colors.get(group_key, default_color_for_key(group_key))
+        image_src = image_map.get(msg.image_identifier)
+        bg, accent = tab_palette(msg.tab_name)
+        parts.append(
+            render_message_html(
+                message=msg,
+                speaker_color=color,
+                image_src=image_src,
+                show_timestamp=show_timestamp,
+                show_speaker_id=show_speaker_id,
+                show_tab_chip=True,
+                tab_bg=bg,
+                tab_accent=accent,
+            )
         )
 
-    payload = {
-        "source_file": source_zip_name,
-        "tabs": list(tab_names),
-        "messages": payload_messages,
-    }
-    json_body = json.dumps(payload, ensure_ascii=False)
-    return f"window.UDONARIUM_LOG_DATA = {json_body};\n"
+    if segment_open:
+        parts.append("</section>")
+    parts.append("</div>")
+    return "".join(parts)
+
+
+def render_columns_page_html(
+    page_messages: Sequence[ChatMessage],
+    selected_tabs: Sequence[str],
+    show_timestamp: bool,
+    show_speaker_id: bool,
+    id_to_group_key: Dict[str, str],
+    group_colors: Dict[str, str],
+    image_map: Dict[str, str],
+) -> str:
+    """タブ別列モードの本文HTMLを作る。"""
+    # ページ内のメッセージをタブごとにまとめる。
+    tab_to_messages: Dict[str, List[ChatMessage]] = defaultdict(list)
+    for msg in page_messages:
+        tab_to_messages[msg.tab_name].append(msg)
+
+    if not page_messages:
+        return '<div class="empty">このページに表示する発言がありません。</div>'
+
+    parts: List[str] = ['<div class="tab-columns">']
+    for tab_name in selected_tabs:
+        tab_messages = tab_to_messages.get(tab_name, [])
+        bg, accent = tab_palette(tab_name)
+        parts.append(
+            f'<section class="tab-column" style="--tab-bg:{bg}; --tab-accent:{accent};">'
+            f'<h2 class="tab-column-title">{escape(tab_name)}</h2>'
+        )
+        if not tab_messages:
+            parts.append('<div class="empty">このページには発言がありません。</div>')
+        else:
+            for msg in tab_messages:
+                group_key = id_to_group_key.get(msg.speaker_id, f"name::{msg.speaker_name}")
+                color = group_colors.get(group_key, default_color_for_key(group_key))
+                image_src = image_map.get(msg.image_identifier)
+                parts.append(
+                    render_message_html(
+                        message=msg,
+                        speaker_color=color,
+                        image_src=image_src,
+                        show_timestamp=show_timestamp,
+                        show_speaker_id=show_speaker_id,
+                        show_tab_chip=False,
+                        tab_bg=bg,
+                        tab_accent=accent,
+                    )
+                )
+        parts.append("</section>")
+    parts.append("</div>")
+    return "".join(parts)
+
+
+def build_html_page(
+    source_file_name: str,
+    selected_tabs: Sequence[str],
+    page_messages: Sequence[ChatMessage],
+    page_index: int,
+    total_pages: int,
+    show_timestamp: bool,
+    show_speaker_id: bool,
+    separate_columns: bool,
+    id_to_group_key: Dict[str, str],
+    group_colors: Dict[str, str],
+    image_map: Dict[str, str],
+) -> str:
+    """単一ページのHTML全文を作る。"""
+    pager_top = build_pager_html(page_index, total_pages)
+    pager_bottom = build_pager_html(page_index, total_pages)
+
+    if separate_columns:
+        content_html = render_columns_page_html(
+            page_messages=page_messages,
+            selected_tabs=selected_tabs,
+            show_timestamp=show_timestamp,
+            show_speaker_id=show_speaker_id,
+            id_to_group_key=id_to_group_key,
+            group_colors=group_colors,
+            image_map=image_map,
+        )
+    else:
+        content_html = render_stream_page_html(
+            page_messages=page_messages,
+            show_timestamp=show_timestamp,
+            show_speaker_id=show_speaker_id,
+            id_to_group_key=id_to_group_key,
+            group_colors=group_colors,
+            image_map=image_map,
+        )
+
+    tab_label = ", ".join(selected_tabs)
+    mode_label = "タブ別列" if separate_columns else "時系列1列"
+
+    return (
+        "<!doctype html>"
+        '<html lang="ja">'
+        "<head>"
+        '<meta charset="utf-8" />'
+        '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />'
+        f"<title>Udonarium Log Viewer - {escape(source_file_name)} - {page_index + 1}/{total_pages}</title>"
+        '<link rel="stylesheet" href="assets/style.css" />'
+        "</head>"
+        "<body>"
+        '<header class="top">'
+        '<div class="title">Udonarium Log Viewer</div>'
+        f'<div class="meta">元ファイル: {escape(source_file_name)}</div>'
+        f'<div class="meta">表示タブ: {escape(tab_label)}</div>'
+        f'<div class="meta">表示モード: {escape(mode_label)}</div>'
+        f'<div class="meta">ID表示: {"ON" if show_speaker_id else "OFF"} / 時刻表示: {"ON" if show_timestamp else "OFF"}</div>'
+        f"{pager_top}"
+        "</header>"
+        '<main class="content">'
+        f"{content_html}"
+        f"{pager_bottom}"
+        "</main>"
+        "</body>"
+        "</html>"
+    )
+
+
+def build_human_output_text(
+    source_file_name: str,
+    messages: Sequence[ChatMessage],
+    show_timestamp: bool,
+    show_speaker_id: bool,
+) -> str:
+    """人間向けテキスト本文を作る。"""
+    lines: List[str] = [f"元ファイル: {source_file_name}", ""]
+
+    if not messages:
+        lines.append("(発言なし)")
+        return "\n".join(lines).rstrip() + "\n"
+
+    current_tab: str | None = None
+    for msg in messages:
+        if msg.tab_name != current_tab:
+            lines.append(f"=== タブ: {msg.tab_name} ===")
+            current_tab = msg.tab_name
+
+        meta_parts: List[str] = []
+        if show_speaker_id:
+            meta_parts.append(f"ID={msg.speaker_id}")
+        if show_timestamp:
+            meta_parts.append(f"時刻={format_timestamp(msg.timestamp)}")
+
+        if meta_parts:
+            lines.append(f"{msg.speaker_name} ({' / '.join(meta_parts)}): {msg.content}")
+        else:
+            lines.append(f"{msg.speaker_name}: {msg.content}")
+
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def build_human_output_html(
     zip_path: Path,
-    output_dir: Path,
-    tab_names: Sequence[str],
-    messages: Sequence[ChatMessage],
+    selected_tabs: Sequence[str],
+    filtered_messages: Sequence[ChatMessage],
+    show_timestamp: bool,
+    show_speaker_id: bool,
+    separate_columns: bool,
+    messages_per_page: int,
+    id_to_group_key: Dict[str, str],
+    group_colors: Dict[str, str],
 ) -> Path:
     """
-    人間向けHTML出力を作成する。
+    人間向け静的HTMLを生成する。
 
     出力構成:
-    - {zip名}_html/index.html
-    - {zip名}_html/assets/css/style.css
-    - {zip名}_html/assets/js/app.js
-    - {zip名}_html/assets/js/data.js
-    - {zip名}_html/assets/images/...
+    - <zip名>_html/index.html
+    - <zip名>_html/page-002.html ...
+    - <zip名>_html/assets/style.css
+    - <zip名>_html/assets/images/...
     """
-    bundle_dir = make_unique_directory(output_dir / f"{zip_path.stem}_html")
+    bundle_dir = make_unique_directory(zip_path.parent / f"{zip_path.stem}_html")
     assets_dir = bundle_dir / "assets"
-    css_dir = assets_dir / "css"
-    js_dir = assets_dir / "js"
     images_dir = assets_dir / "images"
-
-    # 必要なフォルダを作る。
-    ensure_directory(bundle_dir)
-    ensure_directory(css_dir)
-    ensure_directory(js_dir)
     ensure_directory(images_dir)
 
-    # 発言で使われる画像だけ抽出する。
-    image_path_map = extract_used_images(zip_path, messages, images_dir)
+    # 実際に表示する発言で使う画像だけ抽出する。
+    image_map = extract_used_images(zip_path, filtered_messages, images_dir)
 
-    # HTML/CSS/JSファイルを書き出す。
-    (bundle_dir / "index.html").write_text(
-        build_html_index_html(zip_path.name),
-        encoding="utf-8",
-    )
-    (css_dir / "style.css").write_text(build_html_css(), encoding="utf-8")
-    (js_dir / "app.js").write_text(build_html_app_js(), encoding="utf-8")
-    (js_dir / "data.js").write_text(
-        build_html_data_js(zip_path.name, tab_names, messages, image_path_map),
-        encoding="utf-8",
-    )
+    # CSSを配置する。
+    (assets_dir / "style.css").write_text(build_html_css(), encoding="utf-8")
+
+    # メッセージをページ分割する。
+    pages = chunk_messages(filtered_messages, messages_per_page)
+    total_pages = len(pages)
+
+    # ページごとにHTMLを生成する。
+    for page_index, page_messages in enumerate(pages):
+        page_html = build_html_page(
+            source_file_name=zip_path.name,
+            selected_tabs=selected_tabs,
+            page_messages=page_messages,
+            page_index=page_index,
+            total_pages=total_pages,
+            show_timestamp=show_timestamp,
+            show_speaker_id=show_speaker_id,
+            separate_columns=separate_columns,
+            id_to_group_key=id_to_group_key,
+            group_colors=group_colors,
+            image_map=image_map,
+        )
+        file_name = "index.html" if page_index == 0 else f"page-{page_index + 1:03d}.html"
+        (bundle_dir / file_name).write_text(page_html, encoding="utf-8")
 
     return bundle_dir / "index.html"
 
 
-def process_zip_file(
-    zip_path: Path,
-    output_dir: Path,
-    processed_dir: Path,
-    config: Dict[str, Dict[str, object]],
-) -> List[Path]:
-    """
-    1つのzipを処理し、ログ出力後にzipを処理済みフォルダへ移動する。
-    戻り値は出力したファイルパス一覧。
-    """
-    root = load_chat_root_from_zip(zip_path)
-    tab_names, extracted_messages = extract_tabs_and_messages(root)
-    sorted_messages = sort_messages_chronologically(extracted_messages)
-
-    created_paths: List[Path] = []
-    outputs = config["outputs"]
-
-    # 人間向けテキストを作る設定なら、txtを出力する。
-    if bool(outputs.get("human_text", False)):
-        human_text = build_human_output_text(zip_path.name, sorted_messages)
-        human_output_path = make_unique_path(output_dir / f"{zip_path.stem}.txt")
-        human_output_path.write_text(human_text, encoding="utf-8")
-        created_paths.append(human_output_path)
-
-    # 人間向けHTMLを作る設定なら、bundleを出力する。
-    if bool(outputs.get("human_html", False)):
-        human_html_path = build_human_output_html(
-            zip_path=zip_path,
-            output_dir=output_dir,
-            tab_names=tab_names,
-            messages=sorted_messages,
-        )
-        created_paths.append(human_html_path)
-
-    if not created_paths:
-        raise ValueError("設定により出力がすべて無効です。outputsを見直してください。")
-
-    # 処理済みzipの移動先。重複時は連番を付ける。
-    moved_path = make_unique_path(processed_dir / zip_path.name)
-    shutil.move(str(zip_path), str(moved_path))
-    return created_paths
-
-
-def main() -> int:
-    """エントリーポイント。"""
+def run() -> int:
+    """メイン処理。"""
     args = parse_args()
-    unprocessed_dir = Path(args.unprocessed_dir)
-    processed_dir = Path(args.processed_dir)
-    output_dir = Path(args.output_dir)
-    config_path = Path(args.config)
+    config = load_config(Path(args.config))
 
-    # 必要なフォルダを準備する。
-    ensure_directory(unprocessed_dir)
-    ensure_directory(processed_dir)
-    ensure_directory(output_dir)
-    config = load_config(config_path)
+    root = create_hidden_root()
+    try:
+        # 1. 入力zipを決める。
+        show_progress("入力zipを選択してください...")
+        zip_path = choose_input_zip(root, args.input_zip)
+        if zip_path is None:
+            print("入力zipの選択がキャンセルされました。")
+            return 0
+        if not zip_path.exists():
+            print(f"[ERROR] 入力zipが見つかりません: {zip_path}", file=sys.stderr)
+            return 1
+        if zip_path.suffix.lower() != ".zip":
+            print(f"[ERROR] 入力ファイルがzipではありません: {zip_path}", file=sys.stderr)
+            return 1
 
-    # 未処理フォルダ内のzipだけを対象にする。
-    zip_files = sorted(unprocessed_dir.glob("*.zip"))
-    if not zip_files:
-        print("未処理フォルダにzipファイルがありません。")
+        # 2. chat.xmlを解析する。
+        show_progress("chat.xml を解析しています...")
+        root_xml = load_chat_root_from_zip(zip_path)
+        tab_names, messages = extract_tabs_and_messages(root_xml)
+        sorted_messages = sort_messages_chronologically(messages)
+        show_progress(f"解析完了: 発言 {len(sorted_messages)} 件 / タブ {len(tab_names)} 個")
+
+        # 3. ID統合ルールで発言者グループを作り、色を選択してもらう。
+        show_progress("発言者グループを作成しています...")
+        groups, id_to_group_key = build_speaker_groups(
+            messages=sorted_messages,
+            grouping_config=config["speaker_grouping"],
+        )
+        show_progress(f"発言者グループ {len(groups)} 件。色選択ダイアログを表示します...")
+        chosen_colors = show_speaker_color_dialog(
+            root=root,
+            groups=groups,
+            preview_max_chars=int(config["ui"]["speaker_alias_preview_max_chars"]),
+        )
+        if chosen_colors is None:
+            print("色選択がキャンセルされました。")
+            return 0
+
+        # 4. タブ選択と列モードを選んでもらう。
+        show_progress("タブ選択ダイアログを表示します...")
+        tab_counts = Counter(msg.tab_name for msg in sorted_messages)
+        selected = show_tab_selection_dialog(
+            root=root,
+            tab_names=tab_names,
+            tab_counts=dict(tab_counts),
+            separate_columns_default=bool(config["html"]["separate_tabs_columns_default"]),
+        )
+        if selected is None:
+            print("タブ選択がキャンセルされました。")
+            return 0
+        selected_tabs, separate_columns = selected
+
+        # 選択されたタブだけへ絞り込む。
+        selected_tab_set = set(selected_tabs)
+        filtered_messages = [m for m in sorted_messages if m.tab_name in selected_tab_set]
+        show_progress(f"タブ絞り込み後: 発言 {len(filtered_messages)} 件")
+
+        # 5. 出力を行う。
+        show_progress("出力を作成しています...")
+        created_paths: List[Path] = []
+        show_timestamp = bool(config["common"]["show_timestamp"])
+        show_speaker_id = bool(config["common"]["show_speaker_id"])
+
+        if bool(config["outputs"]["human_text"]):
+            text_path = make_unique_path(zip_path.with_suffix(".txt"))
+            text_body = build_human_output_text(
+                source_file_name=zip_path.name,
+                messages=filtered_messages,
+                show_timestamp=show_timestamp,
+                show_speaker_id=show_speaker_id,
+            )
+            text_path.write_text(text_body, encoding="utf-8")
+            created_paths.append(text_path)
+
+        if bool(config["outputs"]["human_html"]):
+            html_index_path = build_human_output_html(
+                zip_path=zip_path,
+                selected_tabs=selected_tabs,
+                filtered_messages=filtered_messages,
+                show_timestamp=show_timestamp,
+                show_speaker_id=show_speaker_id,
+                separate_columns=separate_columns,
+                messages_per_page=int(config["html"]["messages_per_page"]),
+                id_to_group_key=id_to_group_key,
+                group_colors=chosen_colors,
+            )
+            created_paths.append(html_index_path)
+
+        if not created_paths:
+            print("[ERROR] 出力設定がすべてOFFです。config.jsonを見直してください。", file=sys.stderr)
+            return 1
+
+        # 最後に出力先を表示する。
+        print("完了:")
+        for path in created_paths:
+            print(f"  - {path}")
         return 0
-
-    success_count = 0
-    failed_count = 0
-
-    for zip_path in zip_files:
-        try:
-            output_paths = process_zip_file(zip_path, output_dir, processed_dir, config)
-            output_display = ", ".join(str(path) for path in output_paths)
-            print(f"[OK] {zip_path.name} -> {output_display}")
-            success_count += 1
-        except Exception as exc:  # noqa: BLE001
-            # エラーが出たzipは移動せずに未処理フォルダへ残す。
-            print(f"[ERROR] {zip_path.name}: {exc}", file=sys.stderr)
-            failed_count += 1
-
-    print(f"完了: 成功 {success_count} 件 / 失敗 {failed_count} 件")
-    return 1 if failed_count else 0
+    finally:
+        # ルートを確実に閉じる。
+        root.destroy()
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(run())

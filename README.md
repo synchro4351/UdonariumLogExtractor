@@ -1,106 +1,112 @@
 # Udonarium Log Extractor
 
-Udonariumの部屋データ（`.zip`）から、チャットログをローカルで抽出するツールです。
+Udonariumの部屋データ（zip）から、ログをローカルで抽出するツールです。  
+現在は「1ファイルずつ処理する」方式です。
 
-- 人間向けテキスト（`.txt`）
-- 人間向けHTML（`index.html + assets`）
+## 主な機能
 
-の2形式に対応しています（設定でON/OFF）。
+- zipをファイル選択ダイアログで指定して処理
+- `chat.xml` を解析して時系列順に整列
+- 発言者IDの自動統合（しきい値ベース）
+- 色選択ダイアログで発言者グループ色を調整
+- タブ選択ダイアログで出力対象タブを指定
+- HTMLを静的生成（動的切替なし）
+- HTMLを複数ページに分割（既定: 1000発言/ページ）
+- テキスト出力（任意でON）
 
-## できること
-
-- `未処理` フォルダ内の `.zip` を順番に処理
-- `chat.xml` から次を抽出
-  - タブ名
-  - 発言者名
-  - 発言者ID
-  - 発言内容
-  - 画像識別子（HTMLで利用）
-- 全タブ横断で時系列順に並べる
-- 処理完了した `.zip` を `処理済み` へ移動
-
-## フォルダ構成
-
-```text
-.
-├─ config.json
-├─ extract_udonarium_logs.py
-├─ 未処理/      # 処理前の部屋データ(zip)を置く
-├─ 処理済み/    # 処理後のzipが移動される
-└─ 出力ログ/    # 抽出ログ
-```
-
-## 使い方
-
-1. Python 3.10+ を用意
-2. `未処理` にUdonariumの部屋データ（zip）を置く
-3. 実行
+## 実行方法
 
 ```bash
 python extract_udonarium_logs.py
 ```
 
-## 設定ファイル（config.json）
-
-初期値:
-
-```json
-{
-  "outputs": {
-    "human_text": true,
-    "human_html": false
-  }
-}
-```
-
-- `outputs.human_text`: 人間向けテキスト（`.txt`）を出力
-- `outputs.human_html`: 人間向けHTML（`..._html/index.html`）を出力
-
-HTMLも同時に出す例:
-
-```json
-{
-  "outputs": {
-    "human_text": true,
-    "human_html": true
-  }
-}
-```
-
-## HTML出力の構成
-
-`出力ログ/<zip名>_html/` の中に次を生成します。
-
-```text
-index.html
-assets/
-  css/style.css
-  js/app.js
-  js/data.js
-  images/...   # zipから抽出した発言画像
-```
-
-このフォルダをそのままVPSなどのWeb公開ディレクトリにアップロードして利用できます。
-
-## HTMLビューアの機能
-
-- 画面上部に固定メニュー
-- 発言者IDごとの文字色変更
-  - 初期色は自動配色
-  - 同じIDは同じ色
-- タブごとの表示/非表示切り替え
-- タイムスタンプ表示ON/OFF（既定: OFF）
-- 発言者ID表示ON/OFF（既定: OFF）
-- タブ表示モード切り替え
-  - 既定: 1列時系列（タブごとに背景色・区切り表示）
-  - 切替: タブ別列表示
-
-## CLIオプション
+### 任意オプション
 
 ```bash
-python extract_udonarium_logs.py \
-  --unprocessed-dir 未処理 \
-  --processed-dir 処理済み \
-  --output-dir 出力ログ \
-  --config config.json
+python extract_udonarium_logs.py --config config.json --input-zip C:\\path\\room.zip
 ```
+
+- `--config`: 設定ファイルのパス
+- `--input-zip`: 入力zipを直接指定（未指定ならダイアログ）
+
+## 処理フロー
+
+1. zipを選択（または `--input-zip` 指定）
+2. 発言者グループの色を選択
+3. タブ選択と表示モード（1列/別列）を選択
+4. 出力生成
+
+## 出力場所
+
+入力zipと同じフォルダに生成します。
+
+- テキスト: `<zip名>.txt`（重複時は `_1` などを付与）
+- HTML: `<zip名>_html/`
+
+HTMLフォルダ構成:
+
+```text
+<zip名>_html/
+  index.html
+  page-002.html
+  page-003.html
+  ...
+  assets/
+    style.css
+    images/
+      ...
+```
+
+このフォルダをそのままWebサーバー配下へ置けば公開可能です。
+
+## config.json
+
+```json
+{
+  "outputs": {
+    "human_text": false,
+    "human_html": true
+  },
+  "common": {
+    "show_timestamp": false,
+    "show_speaker_id": false
+  },
+  "html": {
+    "messages_per_page": 1000,
+    "separate_tabs_columns_default": false
+  },
+  "speaker_grouping": {
+    "enabled": true,
+    "min_messages_for_merge": 15,
+    "min_overlap_messages": 6,
+    "min_overlap_ratio": 0.25,
+    "name_ratio_threshold": 0.12,
+    "min_name_count": 3
+  },
+  "ui": {
+    "speaker_alias_preview_max_chars": 48
+  }
+}
+```
+
+### 設定項目の意味
+
+- `outputs.human_text`: テキスト出力ON/OFF
+- `outputs.human_html`: HTML出力ON/OFF
+- `common.show_timestamp`: 時刻表示ON/OFF（テキスト/HTML共通）
+- `common.show_speaker_id`: ID表示ON/OFF（テキスト/HTML共通）
+- `html.messages_per_page`: 1ページあたりの発言数
+- `html.separate_tabs_columns_default`: タブ別列表示の初期値
+- `speaker_grouping.*`: ID統合ルール
+- `ui.speaker_alias_preview_max_chars`: 色選択ダイアログの別名表示文字数
+
+## ID統合アルゴリズム（要約）
+
+ID同士を次の条件で統合します。
+
+1. 各IDで「十分出現した名前」を有効名として抽出
+2. IDペアで有効名の重なりを測定
+3. しきい値を満たすペアをUnion-Findで結合
+
+これにより、日程ごとにIDが変わっても同一話者をまとめやすくします。  
+ただし誤判定はゼロではないため、最終調整は色選択ダイアログで行えます。
