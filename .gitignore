@@ -1,1 +1,18 @@
-sample/*
+# Pythonの実行で自動生成されるファイルを除外
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ローカル開発用の仮想環境を除外
+.venv/
+venv/
+env/
+
+# 実行時に使う入出力フォルダの中身はGit管理しない
+出力ログ/*
+!出力ログ/.gitkeep
+未処理/*
+!未処理/.gitkeep
+処理済み/*
+!処理済み/.gitkeep
