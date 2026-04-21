@@ -3,15 +3,13 @@
 Udonariumの部屋データ(zip)からチャットログを抽出して、テキストで保存するスクリプトです。
 
 設定ファイル(config.json)で、次の出力を切り替えられます。
-- 人間向けログ（既定で有効）
-- 機械向けログ（既定で無効）
+- 人間向けテキスト（既定で有効）
+- 人間向けHTML（将来追加予定 / 既定で無効）
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
-import io
 import json
 import shutil
 import sys
@@ -107,15 +105,12 @@ def default_config() -> Dict[str, Dict[str, object]]:
 
     ポイント:
     - 既定では人間向けのみ出力
-    - 機械向けは必要時だけ有効化
+    - HTMLは次ステップで実装するため、いまは無効
     """
     return {
         "outputs": {
-            "human_readable": True,
-            "machine_readable": False,
-        },
-        "machine": {
-            "format": "jsonl",
+            "human_text": True,
+            "human_html": False,
         },
     }
 
@@ -143,22 +138,12 @@ def load_config(config_path: Path) -> Dict[str, Dict[str, object]]:
     if outputs is not None:
         if not isinstance(outputs, dict):
             raise ValueError("設定ファイルの outputs はオブジェクトである必要があります。")
-        for key in ("human_readable", "machine_readable"):
+        for key in ("human_text", "human_html"):
             if key in outputs:
                 value = outputs[key]
                 if not isinstance(value, bool):
                     raise ValueError(f"outputs.{key} は true/false で指定してください。")
                 config["outputs"][key] = value
-
-    machine = loaded.get("machine")
-    if machine is not None:
-        if not isinstance(machine, dict):
-            raise ValueError("設定ファイルの machine はオブジェクトである必要があります。")
-        if "format" in machine:
-            format_value = machine["format"]
-            if format_value not in ("jsonl", "tsv"):
-                raise ValueError("machine.format は jsonl または tsv を指定してください。")
-            config["machine"]["format"] = format_value
 
     return config
 
@@ -283,42 +268,6 @@ def build_human_output_text(zip_name: str, messages: Sequence[ChatMessage]) -> s
     return "\n".join(lines).rstrip() + "\n"
 
 
-def build_machine_output_jsonl(messages: Sequence[ChatMessage]) -> str:
-    """
-    機械向けJSONL文字列を作る。
-    1行1JSONで、ログ解析ツールに取り込みやすい形式。
-    """
-    lines: List[str] = []
-    for message in messages:
-        record = {
-            "tab": message.tab_name,
-            "speaker": message.speaker,
-            "message": message.content,
-        }
-        lines.append(json.dumps(record, ensure_ascii=False))
-
-    if not lines:
-        return ""
-
-    return "\n".join(lines) + "\n"
-
-
-def build_machine_output_tsv(messages: Sequence[ChatMessage]) -> str:
-    """
-    機械向けTSV文字列を作る。
-    表計算ソフトやスクリプトで扱いやすい。
-    """
-    buffer = io.StringIO()
-    writer = csv.writer(buffer, delimiter="\t", lineterminator="\n")
-
-    # 先頭にヘッダ行を置く。
-    writer.writerow(["tab", "speaker", "message"])
-    for message in messages:
-        writer.writerow([message.tab_name, message.speaker, message.content])
-
-    return buffer.getvalue()
-
-
 def process_zip_file(
     zip_path: Path,
     output_dir: Path,
@@ -335,29 +284,26 @@ def process_zip_file(
 
     created_paths: List[Path] = []
     outputs = config["outputs"]
-    machine = config["machine"]
 
     # 人間向けログを作る設定なら、txtを出力する。
-    if bool(outputs.get("human_readable", False)):
+    if bool(outputs.get("human_text", False)):
         human_text = build_human_output_text(zip_path.name, sorted_messages)
         human_output_path = make_unique_path(output_dir / f"{zip_path.stem}.txt")
         human_output_path.write_text(human_text, encoding="utf-8")
         created_paths.append(human_output_path)
 
-    # 機械向けログを作る設定なら、指定形式で出力する。
-    if bool(outputs.get("machine_readable", False)):
-        machine_format = str(machine.get("format", "jsonl"))
-        if machine_format == "tsv":
-            machine_text = build_machine_output_tsv(sorted_messages)
-            machine_output_path = make_unique_path(output_dir / f"{zip_path.stem}.machine.tsv")
-        else:
-            machine_text = build_machine_output_jsonl(sorted_messages)
-            machine_output_path = make_unique_path(output_dir / f"{zip_path.stem}.machine.jsonl")
-
-        machine_output_path.write_text(machine_text, encoding="utf-8")
-        created_paths.append(machine_output_path)
+    # HTMLは次ステップで実装予定なので、ここでは明示的に案内しておく。
+    if bool(outputs.get("human_html", False)):
+        print(
+            "[WARN] outputs.human_html は未実装です。今回の処理ではテキストのみ出力します。",
+            file=sys.stderr,
+        )
 
     if not created_paths:
+        if bool(outputs.get("human_html", False)):
+            raise ValueError(
+                "outputs.human_html は未実装です。いったん outputs.human_text を true にしてください。"
+            )
         raise ValueError("設定により出力がすべて無効です。outputsを見直してください。")
 
     # 処理済みzipの移動先。重複時は連番を付ける。
