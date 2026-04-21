@@ -100,7 +100,7 @@ HTMLフォルダ構成:
 - `outputs.human_html`: HTML出力ON/OFF
 - `common.show_timestamp`: 時刻表示ON/OFF（テキスト/HTML共通）
 - `common.show_speaker_id`: ID表示ON/OFF（テキスト/HTML共通）
-- `html.messages_per_page`: 1ページあたりの発言数
+- `html.messages_per_page`: 1ページあたりの発言数（`0` でページ分割なし）
 - `html.separate_tabs_columns_default`: タブ別列表示の初期値
 - `speaker_grouping.*`: ID統合ルール
 - `ui.speaker_alias_preview_max_chars`: 色選択ダイアログの別名表示文字数
@@ -115,4 +115,3 @@ ID同士を次の条件で統合します。
 
 これにより、日程ごとにIDが変わっても同一話者をまとめやすくします。  
 ただし誤判定はゼロではないため、最終調整は色選択ダイアログで行えます。
-

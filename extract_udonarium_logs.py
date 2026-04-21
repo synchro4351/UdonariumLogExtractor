@@ -201,7 +201,8 @@ def load_config(config_path: Path) -> Dict[str, Any]:
     config["html"]["separate_tabs_columns_default"] = bool(config["html"]["separate_tabs_columns_default"])
     config["speaker_grouping"]["enabled"] = bool(config["speaker_grouping"]["enabled"])
 
-    config["html"]["messages_per_page"] = max(1, int(config["html"]["messages_per_page"]))
+    # 0 を指定した場合は「ページ分割なし（全件を1ページ）」として扱う。
+    config["html"]["messages_per_page"] = max(0, int(config["html"]["messages_per_page"]))
     config["speaker_grouping"]["min_messages_for_merge"] = max(
         1, int(config["speaker_grouping"]["min_messages_for_merge"])
     )
@@ -877,6 +878,10 @@ def extract_used_images(
 
 def chunk_messages(messages: Sequence[ChatMessage], size: int) -> List[List[ChatMessage]]:
     """メッセージをページサイズごとに分割する。"""
+    # size が 0 以下ならページ分割せず、全件を1ページとして返す。
+    if size <= 0:
+        return [list(messages)] if messages else [[]]
+
     if not messages:
         return [[]]
     chunks: List[List[ChatMessage]] = []
