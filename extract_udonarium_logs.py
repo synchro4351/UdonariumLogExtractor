@@ -21,6 +21,7 @@ import argparse
 import html
 import json
 import math
+import re
 import sys
 import zipfile
 from collections import Counter, defaultdict
@@ -45,6 +46,7 @@ except Exception:  # pragma: no cover - 実行環境依存
 
 # Udonariumのzipに含まれうる画像拡張子。
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"}
+CHAT_XML_CANDIDATES = ("chat.xml", "fly_chat.xml")
 
 
 @dataclass(frozen=True)
@@ -58,6 +60,7 @@ class ChatMessage:
     content: str
     timestamp: int | None
     sequence: int
+    native_color: str | None
 
 
 @dataclass(frozen=True)
@@ -239,20 +242,54 @@ def parse_timestamp(raw_timestamp: str | None) -> int | None:
         return None
 
 
-def load_chat_root_from_zip(zip_path: Path) -> ET.Element:
-    """zip内のchat.xmlを読み込み、XMLルート要素を返す。"""
+def normalize_css_color(raw_color: str | None) -> str | None:
+    """#RRGGBB/#RGB 形式だけを受け付ける。"""
+    if raw_color is None:
+        return None
+    text = raw_color.strip()
+    if not text:
+        return None
+    if not re.fullmatch(r"#[0-9a-fA-F]{6}", text) and not re.fullmatch(r"#[0-9a-fA-F]{3}", text):
+        return None
+    return text.lower()
+
+
+def load_chat_root_from_zip(zip_path: Path) -> Tuple[ET.Element, str]:
+    """zip内のchat XMLを読み込み、XMLルート要素とファイル名を返す。"""
     with zipfile.ZipFile(zip_path, "r") as archive:
-        try:
-            xml_bytes = archive.read("chat.xml")
-        except KeyError as exc:
-            raise FileNotFoundError("zip内に chat.xml が見つかりません。") from exc
+        file_names = [info.filename for info in archive.infolist() if not info.is_dir()]
+
+        # まずは完全一致で探す。見つからない場合は basename 一致も許容する。
+        selected_name: str | None = None
+        lowered_to_original = {name.lower(): name for name in file_names}
+        for candidate in CHAT_XML_CANDIDATES:
+            if candidate in file_names:
+                selected_name = candidate
+                break
+            lowered = lowered_to_original.get(candidate.lower())
+            if lowered:
+                selected_name = lowered
+                break
+            basename_matched = next(
+                (name for name in file_names if Path(name).name.lower() == candidate.lower()),
+                None,
+            )
+            if basename_matched:
+                selected_name = basename_matched
+                break
+
+        if selected_name is None:
+            expected = ", ".join(CHAT_XML_CANDIDATES)
+            raise FileNotFoundError(f"zip内に {expected} が見つかりません。")
+
+        xml_bytes = archive.read(selected_name)
 
     try:
         root = ET.fromstring(xml_bytes)
     except ET.ParseError as exc:
-        raise ValueError("chat.xml のXML解析に失敗しました。") from exc
+        raise ValueError(f"{Path(selected_name).name} のXML解析に失敗しました。") from exc
 
-    return root
+    return root, Path(selected_name).name
 
 
 def extract_tabs_and_messages(root: ET.Element) -> Tuple[List[str], List[ChatMessage]]:
@@ -269,6 +306,7 @@ def extract_tabs_and_messages(root: ET.Element) -> Tuple[List[str], List[ChatMes
             speaker_name = (chat.get("name") or "名無し").strip() or "名無し"
             speaker_id = (chat.get("from") or "unknown").strip() or "unknown"
             image_identifier = (chat.get("imageIdentifier") or "").strip()
+            native_color = normalize_css_color(chat.get("color"))
             content = normalize_text(chat.text or "")
             if not content:
                 continue
@@ -282,6 +320,7 @@ def extract_tabs_and_messages(root: ET.Element) -> Tuple[List[str], List[ChatMes
                     content=content,
                     timestamp=parse_timestamp(chat.get("timestamp")),
                     sequence=seq,
+                    native_color=native_color,
                 )
             )
             seq += 1
@@ -571,6 +610,8 @@ def show_speaker_color_dialog(
     # スクロール領域を作る（グループ数が多くても扱えるようにする）。
     outer = tk.Frame(dialog)
     outer.pack(fill="both", expand=True, padx=10, pady=6)
+    option_row = tk.Frame(dialog)
+    option_row.pack(fill="x", padx=10, pady=(0, 4))
 
     canvas = tk.Canvas(outer, highlightthickness=0)
     scrollbar = tk.Scrollbar(outer, orient="vertical", command=canvas.yview)
@@ -587,6 +628,7 @@ def show_speaker_color_dialog(
     scrollbar.pack(side="right", fill="y")
 
     selected_colors: Dict[str, str] = {g.group_key: g.default_color for g in groups}
+    no_color_var = tk.BooleanVar(value=False)
 
     # 1グループ1行で色設定UIを作る。
     for group in groups:
@@ -628,11 +670,20 @@ def show_speaker_color_dialog(
 
         row.grid_columnconfigure(1, weight=1)
 
+    tk.Checkbutton(
+        option_row,
+        text="全員色なし（話者名を通常テキスト色で表示）",
+        variable=no_color_var,
+    ).pack(anchor="w")
+
     button_row = tk.Frame(dialog)
     button_row.pack(fill="x", padx=10, pady=(0, 10))
 
     def on_ok() -> None:
-        result_holder["value"] = dict(selected_colors)
+        if no_color_var.get():
+            result_holder["value"] = {g.group_key: "" for g in groups}
+        else:
+            result_holder["value"] = dict(selected_colors)
         dialog.destroy()
 
     def on_cancel() -> None:
@@ -850,6 +901,27 @@ def escape(text: str) -> str:
     return html.escape(text, quote=True)
 
 
+def resolve_speaker_color(
+    message: ChatMessage,
+    id_to_group_key: Dict[str, str],
+    group_colors: Dict[str, str],
+    use_native_colors: bool,
+) -> str | None:
+    """
+    表示に使う話者色を決める。
+    - use_native_colors=True かつメッセージ内に色がある場合はそれを優先
+    - ダイアログで「全員色なし」を選んだ場合は空文字が入り、Noneに変換して無彩色表示
+    """
+    if use_native_colors and message.native_color:
+        return message.native_color
+
+    group_key = id_to_group_key.get(message.speaker_id, f"name::{message.speaker_name}")
+    chosen = group_colors.get(group_key)
+    if chosen is not None:
+        return chosen or None
+    return default_color_for_key(group_key)
+
+
 def build_html_css() -> str:
     """静的HTML用のCSSを返す。"""
     return """/* 軽量な静的ログ表示用スタイル */
@@ -938,9 +1010,9 @@ html, body {
 
 /* 1列モードでは左余白を持たせ、タブ単位のかたまり感を出す */
 .tab-segment {
-  margin: 8px 0;
-  padding-left: 10px;
-  border-left: 4px solid var(--tab-accent, #999);
+  margin: 6px 0;
+  margin-left: var(--tab-indent, 0px);
+  padding-left: 4px;
 }
 
 .tab-head {
@@ -967,6 +1039,10 @@ html, body {
   object-fit: cover;
   flex: 0 0 auto;
   background: #ddd;
+}
+
+.avatar-clickable {
+  cursor: zoom-in;
 }
 
 .avatar-fallback {
@@ -1044,6 +1120,30 @@ html, body {
   font-weight: 700;
 }
 
+.image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 16px;
+}
+
+.image-overlay.is-open {
+  display: flex;
+}
+
+.image-overlay img {
+  max-width: min(96vw, 1400px);
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  background: #111;
+}
+
 @media (max-width: 640px) {
   .msg {
     gap: 6px;
@@ -1057,9 +1157,53 @@ html, body {
 """
 
 
+def build_html_js() -> str:
+    """静的HTMLで使う軽量JSを返す。"""
+    return """(() => {
+  const overlay = document.getElementById("image-overlay");
+  const overlayImage = document.getElementById("image-overlay-image");
+  if (!overlay || !overlayImage) {
+    return;
+  }
+
+  const closeOverlay = () => {
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    overlayImage.removeAttribute("src");
+  };
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+    const avatar = target.closest(".avatar-clickable");
+    if (avatar instanceof HTMLImageElement) {
+      const fullsrc = avatar.getAttribute("data-fullsrc") || avatar.getAttribute("src");
+      if (!fullsrc) {
+        return;
+      }
+      overlayImage.setAttribute("src", fullsrc);
+      overlay.classList.add("is-open");
+      overlay.setAttribute("aria-hidden", "false");
+      return;
+    }
+    if (target === overlay) {
+      closeOverlay();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeOverlay();
+    }
+  });
+})();"""
+
+
 def render_message_html(
     message: ChatMessage,
-    speaker_color: str,
+    speaker_color: str | None,
     image_src: str | None,
     show_timestamp: bool,
     show_speaker_id: bool,
@@ -1070,7 +1214,7 @@ def render_message_html(
     """1発言分のHTMLを作る。"""
     if image_src:
         avatar_html = (
-            f'<img class="avatar" src="{escape(image_src)}" '
+            f'<img class="avatar avatar-clickable" src="{escape(image_src)}" data-fullsrc="{escape(image_src)}" '
             f'alt="{escape(message.speaker_name)} の画像" loading="lazy" />'
         )
     else:
@@ -1087,13 +1231,14 @@ def render_message_html(
         submeta_html = f'<span class="submeta">{" / ".join(submeta_parts)}</span>'
 
     tab_chip_html = f'<span class="tab-chip">{escape(message.tab_name)}</span>' if show_tab_chip else ""
+    speaker_style = f' style="color:{speaker_color};"' if speaker_color else ""
 
     return (
         f'<article class="msg" style="--tab-bg:{tab_bg}; --tab-accent:{tab_accent};">'
         f"{avatar_html}"
         f'<div class="msg-main">'
         f'<div class="msg-head">'
-        f'<span class="speaker" style="color:{speaker_color};">{escape(message.speaker_name)}</span>'
+        f'<span class="speaker"{speaker_style}>{escape(message.speaker_name)}</span>'
         f"{submeta_html}"
         f"{tab_chip_html}"
         f"</div>"
@@ -1141,35 +1286,44 @@ def build_pager_html(page_index: int, total_pages: int) -> str:
 
 def render_stream_page_html(
     page_messages: Sequence[ChatMessage],
+    tab_order: Sequence[str],
     show_timestamp: bool,
     show_speaker_id: bool,
     id_to_group_key: Dict[str, str],
     group_colors: Dict[str, str],
     image_map: Dict[str, str],
+    use_native_colors: bool,
 ) -> str:
-    """1列表示モードの本文HTMLを作る。"""
+    """1段表示モードの本文HTMLを作る。"""
     if not page_messages:
         return '<div class="empty">このページに表示する発言がありません。</div>'
 
     parts: List[str] = ['<div class="stream">']
     current_tab: str | None = None
     segment_open = False
+    tab_index = {tab_name: idx for idx, tab_name in enumerate(tab_order)}
+    indent_step = 14
 
     for msg in page_messages:
-        # タブが変わったら、前のセグメントを閉じて新しいセグメントを開く。
+        # タブが切り替わるたびにセグメントを区切る。
         if msg.tab_name != current_tab:
             if segment_open:
                 parts.append("</section>")
             bg, accent = tab_palette(msg.tab_name)
+            indent_px = tab_index.get(msg.tab_name, 0) * indent_step
             parts.append(
-                f'<section class="tab-segment" style="--tab-bg:{bg}; --tab-accent:{accent};">'
+                f'<section class="tab-segment" style="--tab-bg:{bg}; --tab-accent:{accent}; --tab-indent:{indent_px}px;">'
                 f'<div class="tab-head">タブ: {escape(msg.tab_name)}</div>'
             )
             segment_open = True
             current_tab = msg.tab_name
 
-        group_key = id_to_group_key.get(msg.speaker_id, f"name::{msg.speaker_name}")
-        color = group_colors.get(group_key, default_color_for_key(group_key))
+        color = resolve_speaker_color(
+            message=msg,
+            id_to_group_key=id_to_group_key,
+            group_colors=group_colors,
+            use_native_colors=use_native_colors,
+        )
         image_src = image_map.get(msg.image_identifier)
         bg, accent = tab_palette(msg.tab_name)
         parts.append(
@@ -1199,6 +1353,7 @@ def render_columns_page_html(
     id_to_group_key: Dict[str, str],
     group_colors: Dict[str, str],
     image_map: Dict[str, str],
+    use_native_colors: bool,
 ) -> str:
     """タブ別列モードの本文HTMLを作る。"""
     # ページ内のメッセージをタブごとにまとめる。
@@ -1221,8 +1376,12 @@ def render_columns_page_html(
             parts.append('<div class="empty">このページには発言がありません。</div>')
         else:
             for msg in tab_messages:
-                group_key = id_to_group_key.get(msg.speaker_id, f"name::{msg.speaker_name}")
-                color = group_colors.get(group_key, default_color_for_key(group_key))
+                color = resolve_speaker_color(
+                    message=msg,
+                    id_to_group_key=id_to_group_key,
+                    group_colors=group_colors,
+                    use_native_colors=use_native_colors,
+                )
                 image_src = image_map.get(msg.image_identifier)
                 parts.append(
                     render_message_html(
@@ -1243,6 +1402,7 @@ def render_columns_page_html(
 
 def build_html_page(
     source_file_name: str,
+    tab_order: Sequence[str],
     selected_tabs: Sequence[str],
     page_messages: Sequence[ChatMessage],
     page_index: int,
@@ -1253,6 +1413,7 @@ def build_html_page(
     id_to_group_key: Dict[str, str],
     group_colors: Dict[str, str],
     image_map: Dict[str, str],
+    use_native_colors: bool,
 ) -> str:
     """単一ページのHTML全文を作る。"""
     pager_top = build_pager_html(page_index, total_pages)
@@ -1267,15 +1428,18 @@ def build_html_page(
             id_to_group_key=id_to_group_key,
             group_colors=group_colors,
             image_map=image_map,
+            use_native_colors=use_native_colors,
         )
     else:
         content_html = render_stream_page_html(
             page_messages=page_messages,
+            tab_order=tab_order,
             show_timestamp=show_timestamp,
             show_speaker_id=show_speaker_id,
             id_to_group_key=id_to_group_key,
             group_colors=group_colors,
             image_map=image_map,
+            use_native_colors=use_native_colors,
         )
 
     tab_label = ", ".join(selected_tabs)
@@ -1303,6 +1467,10 @@ def build_html_page(
         f"{content_html}"
         f"{pager_bottom}"
         "</main>"
+        '<div id="image-overlay" class="image-overlay" aria-hidden="true">'
+        '<img id="image-overlay-image" alt="拡大画像" loading="lazy" />'
+        "</div>"
+        '<script src="assets/viewer.js"></script>'
         "</body>"
         "</html>"
     )
@@ -1343,6 +1511,7 @@ def build_human_output_text(
 
 def build_human_output_html(
     zip_path: Path,
+    tab_order: Sequence[str],
     selected_tabs: Sequence[str],
     filtered_messages: Sequence[ChatMessage],
     show_timestamp: bool,
@@ -1351,6 +1520,7 @@ def build_human_output_html(
     messages_per_page: int,
     id_to_group_key: Dict[str, str],
     group_colors: Dict[str, str],
+    use_native_colors: bool,
 ) -> Path:
     """
     人間向け静的HTMLを生成する。
@@ -1371,6 +1541,8 @@ def build_human_output_html(
 
     # CSSを配置する。
     (assets_dir / "style.css").write_text(build_html_css(), encoding="utf-8")
+    # アイコン拡大用の最小JSを配置する。
+    (assets_dir / "viewer.js").write_text(build_html_js(), encoding="utf-8")
 
     # メッセージをページ分割する。
     pages = chunk_messages(filtered_messages, messages_per_page)
@@ -1380,6 +1552,7 @@ def build_human_output_html(
     for page_index, page_messages in enumerate(pages):
         page_html = build_html_page(
             source_file_name=zip_path.name,
+            tab_order=tab_order,
             selected_tabs=selected_tabs,
             page_messages=page_messages,
             page_index=page_index,
@@ -1390,6 +1563,7 @@ def build_human_output_html(
             id_to_group_key=id_to_group_key,
             group_colors=group_colors,
             image_map=image_map,
+            use_native_colors=use_native_colors,
         )
         file_name = "index.html" if page_index == 0 else f"page-{page_index + 1:03d}.html"
         (bundle_dir / file_name).write_text(page_html, encoding="utf-8")
@@ -1417,28 +1591,39 @@ def run() -> int:
             print(f"[ERROR] 入力ファイルがzipではありません: {zip_path}", file=sys.stderr)
             return 1
 
-        # 2. chat.xmlを解析する。
-        show_progress("chat.xml を解析しています...")
-        root_xml = load_chat_root_from_zip(zip_path)
+        # 2. chat XMLを解析する。
+        show_progress("chat XML を解析しています...")
+        root_xml, chat_file_name = load_chat_root_from_zip(zip_path)
         tab_names, messages = extract_tabs_and_messages(root_xml)
         sorted_messages = sort_messages_chronologically(messages)
-        show_progress(f"解析完了: 発言 {len(sorted_messages)} 件 / タブ {len(tab_names)} 個")
+        show_progress(
+            f"解析完了: {chat_file_name} / 発言 {len(sorted_messages)} 件 / タブ {len(tab_names)} 個"
+        )
 
-        # 3. ID統合ルールで発言者グループを作り、色を選択してもらう。
-        show_progress("発言者グループを作成しています...")
-        groups, id_to_group_key = build_speaker_groups(
-            messages=sorted_messages,
-            grouping_config=config["speaker_grouping"],
-        )
-        show_progress(f"発言者グループ {len(groups)} 件。色選択ダイアログを表示します...")
-        chosen_colors = show_speaker_color_dialog(
-            root=root,
-            groups=groups,
-            preview_max_chars=int(config["ui"]["speaker_alias_preview_max_chars"]),
-        )
-        if chosen_colors is None:
-            print("色選択がキャンセルされました。")
-            return 0
+        # 3. 話者色を決める。
+        generate_html = bool(config["outputs"]["human_html"])
+        use_native_colors = generate_html and chat_file_name.lower() == "fly_chat.xml"
+        id_to_group_key: Dict[str, str] = {}
+        chosen_colors: Dict[str, str] = {}
+        if not generate_html:
+            show_progress("HTML出力がOFFのため、色設定処理はスキップします。")
+        elif use_native_colors:
+            show_progress("Udonarium_fly 形式を検出しました。ログ内の色設定をそのまま使います。")
+        else:
+            show_progress("発言者グループを作成しています...")
+            groups, id_to_group_key = build_speaker_groups(
+                messages=sorted_messages,
+                grouping_config=config["speaker_grouping"],
+            )
+            show_progress(f"発言者グループ {len(groups)} 件。色選択ダイアログを表示します...")
+            chosen_colors = show_speaker_color_dialog(
+                root=root,
+                groups=groups,
+                preview_max_chars=int(config["ui"]["speaker_alias_preview_max_chars"]),
+            )
+            if chosen_colors is None:
+                print("色選択がキャンセルされました。")
+                return 0
 
         # 4. タブ選択と列モードを選んでもらう。
         show_progress("タブ選択ダイアログを表示します...")
@@ -1479,6 +1664,7 @@ def run() -> int:
         if bool(config["outputs"]["human_html"]):
             html_index_path = build_human_output_html(
                 zip_path=zip_path,
+                tab_order=tab_names,
                 selected_tabs=selected_tabs,
                 filtered_messages=filtered_messages,
                 show_timestamp=show_timestamp,
@@ -1487,6 +1673,7 @@ def run() -> int:
                 messages_per_page=int(config["html"]["messages_per_page"]),
                 id_to_group_key=id_to_group_key,
                 group_colors=chosen_colors,
+                use_native_colors=use_native_colors,
             )
             created_paths.append(html_index_path)
 

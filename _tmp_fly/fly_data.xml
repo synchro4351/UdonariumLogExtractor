@@ -1,0 +1,3229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<room>
+  <game-table name="最初のテーブル" width="25" height="17" gridSize="50" imageIdentifier="4d442548fbc3e3a77a434b9f6f29e22e080b19d7aa55aca776185b2e1d1fcd0b" backgroundImageIdentifier="9e2ef1b3db42759ff97d53d1ad47125478568b324481b802ae843260df331a7f" backgroundImageIdentifier2="imageIdentifier" backgroundFilterType="" selected="true" gridType="0" gridColor="#000000e6" isShowNumber="true">
+    <table-mask isLock="true" blendType="0" isTransparentOnGMMode="false" owner="" scratchingGrids="" scratchedGrids="" isScratchPreviewOnGMMode="false" isPreview="false" borderType="1" location.name="table" location.x="525" location.y="175" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+      <data name="table-mask">
+        <data name="image">
+          <data type="image" name="imageIdentifier">9c1d0379b3b779927f5eeacaba03a336c7e98cbd54abbbaf4e8fb0105e61efb6</data>
+        </data>
+        <data name="common">
+          <data name="name">PCの立ち絵</data>
+          <data name="width">1.5</data>
+          <data name="height">1.5</data>
+          <data type="numberResource" currentValue="100" name="opacity">100</data>
+          <data name="fontsize">18</data>
+          <data type="note" currentValue="" name="text"></data>
+          <data type="colors" currentValue="#0a0a0a" name="color">#555555</data>
+          <data name="altitude">0</data>
+        </data>
+        <data name="detail"></data>
+      </data>
+    </table-mask>
+    <table-mask isLock="true" blendType="0" isTransparentOnGMMode="false" owner="" scratchingGrids="" scratchedGrids="" isScratchPreviewOnGMMode="false" isPreview="false" borderType="1" location.name="table" location.x="625" location.y="225" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+      <data name="table-mask">
+        <data name="image">
+          <data type="image" name="imageIdentifier">a787bb30e9ed490cd1886279fe7d1f9d3914ee47efe4ae8adf8e033d2e662e0e</data>
+        </data>
+        <data name="common">
+          <data name="name">マップマスク</data>
+          <data name="width">12</data>
+          <data name="height">8</data>
+          <data type="numberResource" currentValue="100" name="opacity">100</data>
+          <data name="fontsize">18</data>
+          <data type="note" currentValue="" name="text"></data>
+          <data type="colors" currentValue="#0a0a0a" name="color">#555555</data>
+          <data name="altitude">0</data>
+        </data>
+        <data name="detail"></data>
+      </data>
+    </table-mask>
+    <table-mask isLock="true" blendType="0" isTransparentOnGMMode="false" owner="" scratchingGrids="" scratchedGrids="" isScratchPreviewOnGMMode="false" isPreview="false" borderType="1" location.name="table" location.x="525" location.y="375" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+      <data name="table-mask">
+        <data name="image">
+          <data type="image" name="imageIdentifier">1723391db778dc9941c9b35432dd5952d160565f4c397720f449684cadad2399</data>
+        </data>
+        <data name="common">
+          <data name="name">PCの立ち絵</data>
+          <data name="width">1.5</data>
+          <data name="height">1.5</data>
+          <data type="numberResource" currentValue="100" name="opacity">100</data>
+          <data name="fontsize">18</data>
+          <data type="note" currentValue="" name="text"></data>
+          <data type="colors" currentValue="#0a0a0a" name="color">#555555</data>
+          <data name="altitude">0</data>
+        </data>
+        <data name="detail"></data>
+      </data>
+    </table-mask>
+    <table-mask isLock="true" blendType="0" isTransparentOnGMMode="false" owner="" scratchingGrids="" scratchedGrids="" isScratchPreviewOnGMMode="false" isPreview="false" borderType="1" location.name="table" location.x="525" location.y="575" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+      <data name="table-mask">
+        <data name="image">
+          <data type="image" name="imageIdentifier">03494b72abdaf2cd340425f08795227b990790f0947192b1f325e9f186eaa9ec</data>
+        </data>
+        <data name="common">
+          <data name="name">PCの立ち絵</data>
+          <data name="width">1.5</data>
+          <data name="height">1.5</data>
+          <data type="numberResource" currentValue="100" name="opacity">100</data>
+          <data name="fontsize">18</data>
+          <data type="note" currentValue="" name="text"></data>
+          <data type="colors" currentValue="#0a0a0a" name="color">#555555</data>
+          <data name="altitude">0</data>
+        </data>
+        <data name="detail"></data>
+      </data>
+    </table-mask>
+    <table-mask isLock="true" blendType="0" isTransparentOnGMMode="false" owner="" scratchingGrids="" scratchedGrids="" isScratchPreviewOnGMMode="false" isPreview="false" borderType="1" location.name="table" location.x="525" location.y="775" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+      <data name="table-mask">
+        <data name="image">
+          <data type="image" name="imageIdentifier">c6726bbc06d34b2d0689f5684961169983c6af45e670731b02cdfdfda4313942</data>
+        </data>
+        <data name="common">
+          <data name="name">PCの立ち絵</data>
+          <data name="width">1.5</data>
+          <data name="height">1.5</data>
+          <data type="numberResource" currentValue="100" name="opacity">100</data>
+          <data name="fontsize">18</data>
+          <data type="note" currentValue="" name="text"></data>
+          <data type="colors" currentValue="#0a0a0a" name="color">#555555</data>
+          <data name="altitude">0</data>
+        </data>
+        <data name="detail"></data>
+      </data>
+    </table-mask>
+  </game-table>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="250" location.y="450" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_1_image</data>
+      </data>
+      <data name="common">
+        <data name="name">モンスターA</data>
+        <data name="size">1</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="200" name="HP">200</data>
+          <data type="numberResource" currentValue="100" name="MP">100</data>
+        </data>
+        <data name="情報">
+          <data type="note" name="説明">ここに説明を書く
+あいうえお</data>
+          <data type="note" name="メモ">任意の文字列
+１
+２
+３
+４
+５</data>
+        </data>
+        <data name="能力">
+          <data name="器用度">24</data>
+          <data name="敏捷度">24</data>
+          <data name="筋力">24</data>
+          <data name="生命力">24</data>
+          <data name="知力">24</data>
+          <data name="精神力">24</data>
+        </data>
+        <data name="戦闘特技">
+          <data name="Lv1">全力攻撃</data>
+          <data name="Lv3">武器習熟/ソード</data>
+          <data name="Lv5">武器習熟/ソードⅡ</data>
+          <data name="Lv7">頑強</data>
+          <data name="Lv9">薙ぎ払い</data>
+          <data name="自動">治癒適正</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="400" location.y="400" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_1_image</data>
+      </data>
+      <data name="common">
+        <data name="name">モンスターB</data>
+        <data name="size">1</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="200" name="HP">200</data>
+          <data type="numberResource" currentValue="100" name="MP">100</data>
+        </data>
+        <data name="情報">
+          <data type="note" name="説明">ここに説明を書く
+あいうえお</data>
+          <data type="note" name="メモ">任意の文字列
+１
+２
+３
+４
+５</data>
+        </data>
+        <data name="能力">
+          <data name="器用度">24</data>
+          <data name="敏捷度">24</data>
+          <data name="筋力">24</data>
+          <data name="生命力">24</data>
+          <data name="知力">24</data>
+          <data name="精神力">24</data>
+        </data>
+        <data name="戦闘特技">
+          <data name="Lv1">全力攻撃</data>
+          <data name="Lv3">武器習熟/ソード</data>
+          <data name="Lv5">武器習熟/ソードⅡ</data>
+          <data name="Lv7">頑強</data>
+          <data name="Lv9">薙ぎ払い</data>
+          <data name="自動">治癒適正</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="550" location.y="250" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_3_image</data>
+      </data>
+      <data name="common">
+        <data name="name">モンスターC</data>
+        <data name="size">3</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="200" name="HP">200</data>
+          <data type="numberResource" currentValue="100" name="MP">100</data>
+        </data>
+        <data name="情報">
+          <data type="note" name="説明">ここに説明を書く
+あいうえお</data>
+          <data type="note" name="メモ">任意の文字列
+１
+２
+３
+４
+５</data>
+        </data>
+        <data name="能力">
+          <data name="器用度">24</data>
+          <data name="敏捷度">24</data>
+          <data name="筋力">24</data>
+          <data name="生命力">24</data>
+          <data name="知力">24</data>
+          <data name="精神力">24</data>
+        </data>
+        <data name="戦闘特技">
+          <data name="Lv1">全力攻撃</data>
+          <data name="Lv3">武器習熟/ソード</data>
+          <data name="Lv5">武器習熟/ソードⅡ</data>
+          <data name="Lv7">頑強</data>
+          <data name="Lv9">薙ぎ払い</data>
+          <data name="自動">治癒適正</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="300" location.y="550" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_4_image</data>
+      </data>
+      <data name="common">
+        <data name="name">キャラクターA</data>
+        <data name="size">1</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="200" name="HP">200</data>
+          <data type="numberResource" currentValue="100" name="MP">100</data>
+        </data>
+        <data name="情報">
+          <data type="note" name="説明">ここに説明を書く
+あいうえお</data>
+          <data type="note" name="メモ">任意の文字列
+１
+２
+３
+４
+５</data>
+        </data>
+        <data name="能力">
+          <data name="器用度">24</data>
+          <data name="敏捷度">24</data>
+          <data name="筋力">24</data>
+          <data name="生命力">24</data>
+          <data name="知力">24</data>
+          <data name="精神力">24</data>
+        </data>
+        <data name="戦闘特技">
+          <data name="Lv1">全力攻撃</data>
+          <data name="Lv3">武器習熟/ソード</data>
+          <data name="Lv5">武器習熟/ソードⅡ</data>
+          <data name="Lv7">頑強</data>
+          <data name="Lv9">薙ぎ払い</data>
+          <data name="自動">治癒適正</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="600" location.y="600" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_5_image</data>
+      </data>
+      <data name="common">
+        <data name="name">キャラクターB</data>
+        <data name="size">1</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="200" name="HP">200</data>
+          <data type="numberResource" currentValue="100" name="MP">100</data>
+        </data>
+        <data name="情報">
+          <data type="note" name="説明">ここに説明を書く
+あいうえお</data>
+          <data type="note" name="メモ">任意の文字列
+１
+２
+３
+４
+５</data>
+        </data>
+        <data name="能力">
+          <data name="器用度">24</data>
+          <data name="敏捷度">24</data>
+          <data name="筋力">24</data>
+          <data name="生命力">24</data>
+          <data name="知力">24</data>
+          <data name="精神力">24</data>
+        </data>
+        <data name="戦闘特技">
+          <data name="Lv1">全力攻撃</data>
+          <data name="Lv3">武器習熟/ソード</data>
+          <data name="Lv5">武器習熟/ソードⅡ</data>
+          <data name="Lv7">頑強</data>
+          <data name="Lv9">薙ぎ払い</data>
+          <data name="自動">治癒適正</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="250" location.y="650" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_6_image</data>
+      </data>
+      <data name="common">
+        <data name="name">キャラクターC</data>
+        <data name="size">1</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="200" name="HP">200</data>
+          <data type="numberResource" currentValue="100" name="MP">100</data>
+        </data>
+        <data name="情報">
+          <data type="note" name="説明">ここに説明を書く
+あいうえお</data>
+          <data type="note" name="メモ">任意の文字列
+１
+２
+３
+４
+５</data>
+        </data>
+        <data name="能力">
+          <data name="器用度">24</data>
+          <data name="敏捷度">24</data>
+          <data name="筋力">24</data>
+          <data name="生命力">24</data>
+          <data name="知力">24</data>
+          <data name="精神力">24</data>
+        </data>
+        <data name="戦闘特技">
+          <data name="Lv1">全力攻撃</data>
+          <data name="Lv3">武器習熟/ソード</data>
+          <data name="Lv5">武器習熟/ソードⅡ</data>
+          <data name="Lv7">頑強</data>
+          <data name="Lv9">薙ぎ払い</data>
+          <data name="自動">治癒適正</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="false" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="625" location.y="550" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">9c1d0379b3b779927f5eeacaba03a336c7e98cbd54abbbaf4e8fb0105e61efb6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">バトー</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="55" name="HP">55</data>
+          <data type="numberResource" currentValue="7" name="LP">7</data>
+          <data name="財産点" type="numberResource" currentValue="10">10</data>
+          <data name="希望" type="numberResource" currentValue="0">0</data>
+          <data name="状態異常" type="note" currentValue="">カヴン・ドルマ　射撃達成値+3</data>
+        </data>
+        <data name="基本設定">
+          <data name="PC番号">PC1</data>
+          <data name="ミーム/ブランチ" currentValue="">オリジン/バァトル</data>
+          <data name="ソフィア" type="" currentValue="">♤</data>
+          <data name="解説" type="note"></data>
+        </data>
+        <data name="基本能力値">
+          <data name="肉体">10</data>
+          <data name="技術" currentValue="">5</data>
+          <data name="魔術" currentValue="">12</data>
+          <data name="社会" currentValue="">3</data>
+          <data name="根源" currentValue="">4</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="白兵" currentValue="">7</data>
+          <data name="射撃" currentValue="">8</data>
+          <data name="回避" currentValue="">9</data>
+          <data name="心魂" currentValue="">6</data>
+          <data name="行動" currentValue="">23</data>
+        </data>
+        <data name="パス">
+          <data name="パス1">○○からの○○</data>
+          <data name="パス2"></data>
+          <data name="パス3"></data>
+          <data name="パス4"></data>
+          <data name="パス5"></data>
+          <data name="パス6"></data>
+          <data name="パス7"></data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="ChaosFlare" paletteColor="">CF+10　【肉体】判定
+CF+5　【技術】判定
+CF+12　【魔術】判定
+CF+3　【社会】判定
+CF+4　【根源】判定
+
+CF+4　登場判定
+CF+3  情報収集判定
+
+CF+8+3  射撃値
+CF+8+5+3 対飛行射撃
+
+CF+9　回避
+CF+6　心魂値
+
+イルシネリア通常射撃（遠隔）
+48+2d6+10　【魔術】　イルシネリア通常射撃（遠隔）
+
+イルシネリア対飛行通常射撃（遠隔）
+60+2d6+10　【魔術】　イルシネリア対飛行通常射撃（遠隔）
+
+雷鳴跳騎+イルシネリア射撃（遠隔）
+72+2d6+10　【魔術】　雷鳴跳騎+イルシネリア射撃（遠隔）
+
+雷鳴跳騎+対飛行イルシネリア射撃（遠隔）
+84+2d6+10　【魔術】　雷鳴跳騎+対飛行イルシネリア射撃（遠隔）
+
+雷鳴跳騎+蒼天弓+イルシネリア射撃（至近）
+108+2d6+10　【魔術】　雷鳴跳騎+蒼天弓+イルシネリア射撃（至近）
+
+雷鳴跳騎+蒼天弓+対飛行イルシネリア射撃（至近）
+120+2d6+10　【魔術】　雷鳴跳騎+蒼天弓+対飛行イルシネリア射撃（至近）
+）
+雷鳴跳騎+オーバーロード+イルシネリア射撃（遠隔）
+72+2d6+10+差分値　【魔術】　雷鳴跳騎+オーバーロード+イルシネリア射撃（遠隔）
+
+雷鳴跳騎+オーバーロード+対飛行イルシネリア射撃（遠隔）
+84+2d6+10+差分値　【魔術】　雷鳴跳騎+オーバーロード+対飛行イルシネリア射撃（遠隔）
+</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="700" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">03494b72abdaf2cd340425f08795227b990790f0947192b1f325e9f186eaa9ec</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">シシュロ</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="99" name="HP">99</data>
+          <data type="numberResource" currentValue="6" name="LP">6</data>
+          <data name="財産点" type="numberResource" currentValue="10">10</data>
+          <data name="希望" type="numberResource" currentValue="0">0</data>
+          <data name="状態異常" type="note">食事効果もここに</data>
+        </data>
+        <data name="基本設定">
+          <data name="PC番号">PC2</data>
+          <data name="ミーム/ブランチ" currentValue="">コラプサー/サクセシュア</data>
+          <data name="ソフィア" type="" currentValue="">♥</data>
+          <data name="解説" type="note"></data>
+        </data>
+        <data name="基本能力値">
+          <data name="肉体" currentValue="">7</data>
+          <data name="技術" currentValue="">4</data>
+          <data name="魔術" currentValue="">8</data>
+          <data name="社会" currentValue="">10</data>
+          <data name="根源" currentValue="">4</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="白兵">10</data>
+          <data name="射撃">10</data>
+          <data name="回避">10</data>
+          <data name="心魂">10</data>
+          <data name="行動">20</data>
+        </data>
+        <data name="パス">
+          <data name="パス1">○○からの○○</data>
+          <data name="パス2"></data>
+          <data name="パス3"></data>
+          <data name="パス4"></data>
+          <data name="パス5"></data>
+          <data name="パス6"></data>
+          <data name="パス7"></data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="ChaosFlare" paletteColor="">CF+7　【肉体】判定
+CF+4　【技術】判定
+CF+8　【魔術】判定
+CF+10　【社会】判定
+CF+4　【根源】判定
+
+CF+4　登場判定
+CF+10  情報収集判定
+
+CF+8  白兵　素手攻撃
+CF+20　行動値
+
+CF+5　回避</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="700" location.y="550" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">1723391db778dc9941c9b35432dd5952d160565f4c397720f449684cadad2399</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ドミニカ</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="40" name="HP">40</data>
+          <data type="numberResource" currentValue="6" name="LP">6</data>
+          <data name="財産点" type="numberResource" currentValue="10">10</data>
+          <data name="希望" type="numberResource" currentValue="0">0</data>
+          <data name="状態異常" type="note" currentValue="">「果実のケーキ」で射撃値＋1（計算済み</data>
+        </data>
+        <data name="基本設定">
+          <data name="PC番号">PC3</data>
+          <data name="ミーム/ブランチ" currentValue="">オリジン/クレリック</data>
+          <data name="ソフィア" type="" currentValue="">♧</data>
+          <data name="解説" type="note"></data>
+        </data>
+        <data name="基本能力値">
+          <data name="肉体" currentValue="">9</data>
+          <data name="技術" currentValue="">5</data>
+          <data name="魔術" currentValue="">11</data>
+          <data name="社会" currentValue="">6</data>
+          <data name="根源" currentValue="">3</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="白兵" currentValue="">6</data>
+          <data name="射撃" currentValue="">8</data>
+          <data name="回避" currentValue="">3</data>
+          <data name="心魂" currentValue="">8</data>
+          <data name="行動" currentValue="">22</data>
+        </data>
+        <data name="パス">
+          <data name="パス1" currentValue="">織田信長からの感服</data>
+          <data name="パス2" currentValue="">不穏な気配への警戒</data>
+          <data name="パス3"></data>
+          <data name="パス4"></data>
+          <data name="パス5"></data>
+          <data name="パス6"></data>
+          <data name="パス7"></data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="ChaosFlare" paletteColor="">CF+9　【肉体】判定
+CF+5　【技術】判定
+CF+11　【魔術】判定
+CF+6　【社会】判定
+CF+2　【根源】判定
+
+CF+2+2　登場判定
+CF+11+1  情報収集判定「ファミリア」込
+
+CF+7+1  射撃値（果実のケーキ込
+CF+7+11+1 射撃値《二刀流》込
+CF+6　回避（白兵でも回避可
+CF+8　心魂値
+
+《星光召喚》：対象のダメージ-11
+2d6+44　【魔術】</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="625" location.y="475" posZ="0" currntImageIndex="2" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_6_image</data>
+        <data type="image" name="imageIdentifier">6bd4bcd6d97eeacffc1b4185da9a6e05fba1cd5ebcea33e468f2f968a51e6dd2</data>
+        <data type="image" name="imageIdentifier">c6726bbc06d34b2d0689f5684961169983c6af45e670731b02cdfdfda4313942</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ミオ</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="46" name="HP">46</data>
+          <data type="numberResource" currentValue="6" name="LP">6</data>
+          <data name="財産点" type="numberResource" currentValue="6">6</data>
+          <data name="希望" type="numberResource" currentValue="0">0</data>
+          <data name="状態異常" type="note">食事効果もここに</data>
+        </data>
+        <data name="基本設定">
+          <data name="PC番号">PC4</data>
+          <data name="ミーム/ブランチ">オリジン/メイジ</data>
+          <data name="ソフィ" type="">♦</data>
+          <data name="解説" type="note"></data>
+        </data>
+        <data name="基本能力値">
+          <data name="肉体">10</data>
+          <data name="技術">5</data>
+          <data name="魔術">11</data>
+          <data name="社会">5</data>
+          <data name="根源">2</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="白兵">4</data>
+          <data name="射撃">9</data>
+          <data name="回避">4</data>
+          <data name="心魂">9</data>
+          <data name="行動">13</data>
+        </data>
+        <data name="パス">
+          <data name="パス1">今川義元 からの 友情</data>
+          <data name="パス2">ダスクフレア への 討伐</data>
+          <data name="パス3" currentValue="">バトーからの警戒</data>
+          <data name="パス4" currentValue="">チンピラAからの恐怖</data>
+          <data name="パス5" currentValue="">レオンへのわんこかわいい</data>
+          <data name="パス6" currentValue="">オウロラへの一方的な友情</data>
+          <data name="パス7" currentValue="">シシュロへの感謝</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="ChaosFlare" paletteColor="">CF+10　【肉体】判定
+CF+5　【技術】判定
+CF+11　【魔術】判定
+CF+11+10　【魔術】判定（《※剣の誓い》込み）
+CF+5　【社会】判定
+CF+2　【根源】判定
+
+CF+2　登場判定
+CF+5+2+1  情報収集判定
+
+CF+9  射撃値
+CF+4　回避
+CF+9　心魂値
+
+5d6*10 　《※ミカエル》ダメージ
+c(11*10)  《合体魔法》ダメージ
+c((11+10)*10)  《合体魔法》ダメージ《※剣の誓い》込
+
+88+3+3d6 　【魔術】《※流星召喚》ダメージ
+168+3+3d6 　【魔術】《※流星召喚》ダメージ ※《剣の誓い》込</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="graveyard" location.x="900" location.y="100" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">testCharacter_6_image</data>
+      </data>
+      <data name="common">
+        <data name="name">PC5</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="100" name="HP">100</data>
+          <data type="numberResource" currentValue="10" name="LP">10</data>
+          <data name="財産点" type="numberResource" currentValue="10">10</data>
+          <data name="希望" type="numberResource" currentValue="0">0</data>
+          <data name="状態異常" type="note">食事効果もここに</data>
+        </data>
+        <data name="基本設定">
+          <data name="PC番号">PC4</data>
+          <data name="ミーム/ブランチ">オリジン/メイジ</data>
+          <data name="ソフィア" type="">♤♥♦♧</data>
+          <data name="解説" type="note"></data>
+        </data>
+        <data name="基本能力値">
+          <data name="肉体">10</data>
+          <data name="技術">10</data>
+          <data name="魔術">10</data>
+          <data name="社会">10</data>
+          <data name="根源">10</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="白兵">10</data>
+          <data name="射撃">10</data>
+          <data name="回避">10</data>
+          <data name="心魂">10</data>
+          <data name="行動">10</data>
+        </data>
+        <data name="パス">
+          <data name="パス1">○○からの○○</data>
+          <data name="パス2"></data>
+          <data name="パス3"></data>
+          <data name="パス4"></data>
+          <data name="パス5"></data>
+          <data name="パス6"></data>
+          <data name="パス7"></data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="ChaosFlare" paletteColor=""></chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="925" location.y="225" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">15d86b71f807c4359a12c9305046c8e151093834a8d6c3069c8c3318a4852fa6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ゴリラ</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ゴ・ゴ・ゴリラはごっついゴリラ
+ゴリラのゴの字はゴツいのゴ
+ゴリラはパンダに憧れた
+パンダのパの字はかわいいな
+ゴリラはパンダにパの字をもらってパ・パ・パリラになっちゃった</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動">5</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="875" location.y="50" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">モリス</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">シシュロの走侶《ランナー》</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="0" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="975" location.y="100" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">667e51f083d0e15d5db914458706944014f506fb70472e91440eec7793b86174</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">オウロラ</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">デミウルゴスの走侶《ランナー》</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="0" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">667e51f083d0e15d5db914458706944014f506fb70472e91440eec7793b86174</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="1075" location.y="100" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">70285837c25d75ee50e7ecf3fd23b4a56aaba9e2af039d193f5319b511e00a20</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ググーガ</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">罠の神・カカ＝レイの走侶《ランナー》</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="0" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">70285837c25d75ee50e7ecf3fd23b4a56aaba9e2af039d193f5319b511e00a20</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="0" roll="15" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="750" location.y="575" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">ea8302d0f3fdae5282300916f4895dbf3270e4d94776e132177491b24b993d45</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">レオン</data>
+        <data name="size" currentValue="">1</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+:ｈｐ-3d6 2d20KH1+{器用度}+2&gt;=15 《{Lv1}》を使用　HP｛＄1｝
+:HP={最大HP}:MP-10 HP全回復！ MP{$2}、HP{HP} → {$HP}（{$1}点回復）
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="common" location.x="1075" location.y="500" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">モリス</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">シシュロの走侶《ランナー》</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="0" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="1000" location.y="225" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">c8b30f51c832f67ad2b7c2a5bc58936da1ab3a22ec559b1aa3014fd3594f6e04</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ドラゴン</data>
+        <data name="size" currentValue="">3</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">火山を根城にする龍。自我を失っている。</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動" currentValue="">7</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="0" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="1000" location.y="525" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ランナー・インフェリア</data>
+        <data name="size" currentValue="">2</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ダスクフレア</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動" currentValue="">28</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="0" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="925" location.y="300" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">15d86b71f807c4359a12c9305046c8e151093834a8d6c3069c8c3318a4852fa6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ゴリラ_1</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ゴ・ゴ・ゴリラはごっついゴリラ
+ゴリラのゴの字はゴツいのゴ
+ゴリラはパンダに憧れた
+パンダのパの字はかわいいな
+ゴリラはパンダにパの字をもらってパ・パ・パリラになっちゃった</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動">5</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="1025" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">15d86b71f807c4359a12c9305046c8e151093834a8d6c3069c8c3318a4852fa6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ゴリラ_2</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ゴ・ゴ・ゴリラはごっついゴリラ
+ゴリラのゴの字はゴツいのゴ
+ゴリラはパンダに憧れた
+パンダのパの字はかわいいな
+ゴリラはパンダにパの字をもらってパ・パ・パリラになっちゃった</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動">5</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="675" location.y="175" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">c8b30f51c832f67ad2b7c2a5bc58936da1ab3a22ec559b1aa3014fd3594f6e04</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ドラゴン_1</data>
+        <data name="size" currentValue="">3</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">火山を根城にする龍。自我を失っている。</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動" currentValue="">7</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="90" height="35" overviewIndex="-1" isSortNameList="true"></stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="725" location.y="300" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">15d86b71f807c4359a12c9305046c8e151093834a8d6c3069c8c3318a4852fa6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ゴリラ_3</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ゴ・ゴ・ゴリラはごっついゴリラ
+ゴリラのゴの字はゴツいのゴ
+ゴリラはパンダに憧れた
+パンダのパの字はかわいいな
+ゴリラはパンダにパの字をもらってパ・パ・パリラになっちゃった</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動">5</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="600" location.y="275" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">15d86b71f807c4359a12c9305046c8e151093834a8d6c3069c8c3318a4852fa6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ゴリラ_4</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ゴ・ゴ・ゴリラはごっついゴリラ
+ゴリラのゴの字はゴツいのゴ
+ゴリラはパンダに憧れた
+パンダのパの字はかわいいな
+ゴリラはパンダにパの字をもらってパ・パ・パリラになっちゃった</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動">5</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <character rotate="-180" roll="0" isDropShadow="true" isShowChatBubble="true" owner="" isAllowsChat="true" location.name="table" location.x="650" location.y="300" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="true" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="character">
+      <data name="image">
+        <data type="image" name="imageIdentifier">15d86b71f807c4359a12c9305046c8e151093834a8d6c3069c8c3318a4852fa6</data>
+      </data>
+      <data name="common">
+        <data name="name" currentValue="">ゴリラ_5</data>
+        <data name="size">1.5</data>
+        <data currentValue="" name="height">0</data>
+        <data name="altitude">0</data>
+      </data>
+      <data name="detail">
+        <data name="リソース">
+          <data type="numberResource" currentValue="0" name="消費HP">0</data>
+          <data type="numberResource" currentValue="0" name="消費LP">0</data>
+          <data name="状態異常" type="note"></data>
+        </data>
+        <data name="基本設定">
+          <data name="解説" type="note" currentValue="">ゴ・ゴ・ゴリラはごっついゴリラ
+ゴリラのゴの字はゴツいのゴ
+ゴリラはパンダに憧れた
+パンダのパの字はかわいいな
+ゴリラはパンダにパの字をもらってパ・パ・パリラになっちゃった</data>
+        </data>
+        <data name="戦闘能力値">
+          <data name="行動">5</data>
+        </data>
+      </data>
+    </data>
+    <chat-palette dicebot="" paletteColor="">チャットパレット入力例：
+2d6+1 ダイスロール
+１ｄ２０＋{敏捷}＋｛格闘｝　{name}の格闘！
+//敏捷=10+{敏捷A}
+//敏捷A=10
+//格闘＝１</chat-palette>
+    <stand-list position="5" height="35" overviewIndex="-1" isSortNameList="true">
+      <data name="stand">
+        <data name="name"></data>
+        <data type="image" name="imageIdentifier">fff45a6bf83b7fb36be86014efd510715ce3e3e22bb5162532825dc1e23cf7ce</data>
+        <data name="conditionType">1</data>
+        <data currentValue="0" name="height">0</data>
+        <data name="applyImageEffect"></data>
+        <data name="applyRoll"></data>
+        <data name="applyDialog">applyDialog</data>
+        <data name="showName">showName</data>
+        <data name="postfix"></data>
+        <data currentValue="" name="position">0</data>
+        <data type="image" name="speakingImageIdentifier"></data>
+      </data>
+    </stand-list>
+  </character>
+  <card-stack rotate="180" zindex="112" owner="" isShowTotal="true" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card-stack">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+      </data>
+      <data name="common">
+        <data name="name">山札</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+    <node name="cardRoot">
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c10.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h02.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c03.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d05.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d08.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s09.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h06.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c04.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s03.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c03.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s05.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c02.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h09.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c07.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c08.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d10.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c07.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s08.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h12.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d09.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c11.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s04.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d02.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d06.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s10.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c12.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="1" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1175" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h04.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+    </node>
+  </card-stack>
+  <card-stack rotate="180" zindex="32" owner="" isShowTotal="true" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card-stack">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+      </data>
+      <data name="common">
+        <data name="name">山札</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+    <node name="cardRoot">
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h03.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h02.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d01.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s03.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1050" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c05.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d07.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c09.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c06.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d06.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c08.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c04.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h06.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/c02.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d04.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s05.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/s08.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="0" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/h07.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d04.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+      <card state="0" rotate="180" owner="" zindex="0" isLocked="false" location.name="table" location.x="1075" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+        <data name="card">
+          <data name="image">
+            <data type="image" name="imageIdentifier"></data>
+            <data type="image" name="front">./assets/images/trump/d03.gif</data>
+            <data type="image" name="back">./assets/images/trump/z02.gif</data>
+          </data>
+          <data name="common">
+            <data name="name">カード</data>
+            <data name="size">1</data>
+            <data name="fontsize">18</data>
+            <data type="note" currentValue="" name="text"></data>
+            <data type="color" name="color">#555555</data>
+          </data>
+          <data name="detail"></data>
+        </data>
+      </card>
+    </node>
+  </card-stack>
+  <card state="0" rotate="180" owner="" zindex="120" isLocked="false" location.name="table" location.x="175" location.y="525" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d02.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="38" isLocked="false" location.name="table" location.x="250" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c10.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="126" isLocked="false" location.name="table" location.x="200" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="141" isLocked="false" location.name="table" location.x="200" location.y="700" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d08.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="140" isLocked="false" location.name="table" location.x="200" location.y="700" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d07.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="68" isLocked="false" location.name="table" location.x="200" location.y="275" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c12.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="132" isLocked="false" location.name="table" location.x="125" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s06.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="16" isLocked="false" location.name="table" location.x="50" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d12.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="41" isLocked="false" location.name="table" location.x="300" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s07.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="17" isLocked="false" location.name="table" location.x="200" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s12.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="102" isLocked="false" location.name="table" location.x="75" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h10.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="139" isLocked="false" location.name="table" location.x="200" location.y="700" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d03.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="131" isLocked="false" location.name="table" location.x="250" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d05.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="90" isLocked="false" location.name="table" location.x="350" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="31" isLocked="false" location.name="table" location.x="100" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h08.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="27" isLocked="false" location.name="table" location.x="225" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h07.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="45" isLocked="false" location.name="table" location.x="250" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h10.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="135" isLocked="false" location.name="table" location.x="75" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c06.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="29" isLocked="false" location.name="table" location.x="50" location.y="750" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s09.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="23" isLocked="false" location.name="table" location.x="150" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s10.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="24" isLocked="false" location.name="table" location.x="150" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="30" isLocked="false" location.name="table" location.x="50" location.y="675" posZ="1.5360000000002807" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="99" isLocked="false" location.name="table" location.x="300" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="114" isLocked="false" location.name="table" location.x="250" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="25" isLocked="false" location.name="table" location.x="175" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h09.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="110" isLocked="false" location.name="table" location.x="300" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d10.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="69" isLocked="false" location.name="table" location.x="150" location.y="275" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c09.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="42" isLocked="false" location.name="table" location.x="275" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="40" isLocked="false" location.name="table" location.x="325" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s04.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="91" isLocked="false" location.name="table" location.x="375" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s02.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="43" isLocked="false" location.name="table" location.x="250" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s06.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="58" isLocked="false" location.name="table" location.x="225" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s07.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="121" isLocked="false" location.name="table" location.x="325" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h03.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="133" isLocked="false" location.name="table" location.x="100" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s02.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="98" isLocked="false" location.name="table" location.x="275" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h05.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="15" isLocked="false" location.name="table" location.x="150" location.y="750" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="28" isLocked="false" location.name="table" location.x="0" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h04.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="7" isLocked="false" location.name="table" location.x="300" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="53" isLocked="false" location.name="table" location.x="100" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="26" isLocked="false" location.name="table" location.x="200" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h08.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="18" isLocked="false" location.name="table" location.x="225" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="5" isLocked="false" location.name="table" location.x="100" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="4" isLocked="false" location.name="table" location.x="75" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h13.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="136" isLocked="false" location.name="table" location.x="150" location.y="725" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c05.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="6" isLocked="false" location.name="table" location.x="125" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h12.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="13" isLocked="false" location.name="table" location.x="350" location.y="750" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/x01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="123" isLocked="false" location.name="table" location.x="225" location.y="525" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d09.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="19" isLocked="false" location.name="table" location.x="250" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="14" isLocked="false" location.name="table" location.x="200" location.y="750" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="2" isLocked="false" location.name="table" location.x="25" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="137" isLocked="false" location.name="table" location.x="150" location.y="700" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h05.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="59" isLocked="false" location.name="table" location.x="175" location.y="75" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/x01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="360" owner="" zindex="12" isLocked="false" location.name="table" location.x="250" location.y="750" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d12.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="109" isLocked="false" location.name="table" location.x="350" location.y="675" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/d01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="21" isLocked="false" location.name="table" location.x="300" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="10" isLocked="false" location.name="table" location.x="150" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/x02.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="8" isLocked="false" location.name="table" location.x="300" location.y="750" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/x02.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="180" owner="" zindex="63" isLocked="false" location.name="table" location.x="200" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c11.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="20" isLocked="false" location.name="table" location.x="275" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s12.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="11" isLocked="false" location.name="table" location.x="350" location.y="350" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/c01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="3" isLocked="false" location.name="table" location.x="50" location.y="475" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/h01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <card state="0" rotate="0" owner="" zindex="22" isLocked="false" location.name="table" location.x="325" location.y="150" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="card">
+      <data name="image">
+        <data type="image" name="imageIdentifier"></data>
+        <data type="image" name="front">./assets/images/trump/s01.gif</data>
+        <data type="image" name="back">./assets/images/trump/z02.gif</data>
+      </data>
+      <data name="common">
+        <data name="name">カード</data>
+        <data name="size">1</data>
+        <data name="fontsize">18</data>
+        <data type="note" currentValue="" name="text"></data>
+        <data type="color" name="color">#555555</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </card>
+  <dice-symbol face="3" owner="" rotate="0" isDropShadow="true" isLock="false" location.name="table" location.x="1000" location.y="800" posZ="0" currntImageIndex="0" isUseIconToOverviewImage="false" currntIconIndex="0" isAltitudeIndicate="false" isInverse="false" isHollow="false" isBlackPaint="false" aura="-1" isNotRide="true" isInventoryIndicate="true">
+    <data name="dice-symbol">
+      <data name="image">
+        <data type="image" name="1">./assets/images/dice/6_dice/6_dice[1].png</data>
+        <data type="image" name="2">./assets/images/dice/6_dice/6_dice[2].png</data>
+        <data type="image" name="3">./assets/images/dice/6_dice/6_dice[3].png</data>
+        <data type="image" name="4">./assets/images/dice/6_dice/6_dice[4].png</data>
+        <data type="image" name="5">./assets/images/dice/6_dice/6_dice[5].png</data>
+        <data type="image" name="6">./assets/images/dice/6_dice/6_dice[6].png</data>
+      </data>
+      <data name="common">
+        <data name="name">GMフレア</data>
+        <data name="size">1</data>
+      </data>
+      <data name="detail"></data>
+    </data>
+  </dice-symbol>
+</room>
