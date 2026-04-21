@@ -1,6 +1,7 @@
 # Udonarium Log Extractor
 
 Udonarium の部屋データ（zip）から、読みやすいログを作るツールです。
+Webにある既存のツールと違い、容量制限がないのが特徴です。
 
 この README は「まず使う」ための説明だけに絞っています。  
 詳しい仕様は [詳細ドキュメント](docs/DETAILS.md) を見てください。
