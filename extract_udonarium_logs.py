@@ -1085,14 +1085,6 @@ html, body {
   font-size: 11px;
 }
 
-.tab-chip {
-  font-size: 11px;
-  color: #555;
-  border: 1px solid #bdbdbd;
-  border-radius: 10px;
-  padding: 0 6px;
-}
-
 .msg-text {
   white-space: pre-wrap;
   word-break: break-word;
@@ -1212,7 +1204,6 @@ def render_message_html(
     image_src: str | None,
     show_timestamp: bool,
     show_speaker_id: bool,
-    show_tab_chip: bool,
     tab_bg: str,
     tab_accent: str,
 ) -> str:
@@ -1235,7 +1226,6 @@ def render_message_html(
     if submeta_parts:
         submeta_html = f'<span class="submeta">{" / ".join(submeta_parts)}</span>'
 
-    tab_chip_html = f'<span class="tab-chip">{escape(message.tab_name)}</span>' if show_tab_chip else ""
     speaker_style = f' style="color:{speaker_color};"' if speaker_color else ""
 
     return (
@@ -1245,7 +1235,6 @@ def render_message_html(
         f'<div class="msg-head">'
         f'<span class="speaker"{speaker_style}>{escape(message.speaker_name)}</span>'
         f"{submeta_html}"
-        f"{tab_chip_html}"
         f"</div>"
         f'<div class="msg-text">{escape(message.content)}</div>'
         f"</div>"
@@ -1338,7 +1327,6 @@ def render_stream_page_html(
                 image_src=image_src,
                 show_timestamp=show_timestamp,
                 show_speaker_id=show_speaker_id,
-                show_tab_chip=True,
                 tab_bg=bg,
                 tab_accent=accent,
             )
@@ -1395,7 +1383,6 @@ def render_columns_page_html(
                         image_src=image_src,
                         show_timestamp=show_timestamp,
                         show_speaker_id=show_speaker_id,
-                        show_tab_chip=False,
                         tab_bg=bg,
                         tab_accent=accent,
                     )
